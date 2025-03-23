@@ -14,10 +14,6 @@ import java.sql.Timestamp;
 @Table(name = "answers")
 public class Answer extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;

@@ -12,9 +12,6 @@ import lombok.*;
 @Table(name = "lessons")
 public class Lesson extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)

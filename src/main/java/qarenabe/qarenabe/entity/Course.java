@@ -11,9 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "courses")
 public class Course extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Column(nullable = false, length = 255)
     private String title;
