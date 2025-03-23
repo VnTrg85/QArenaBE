@@ -1,5 +1,4 @@
 package qarenabe.qarenabe.entity;
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -20,7 +19,7 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestProject {
+public class Notification {
     @Id
     @Getter
     @Setter
@@ -29,54 +28,19 @@ public class TestProject {
 
     @Getter
     @Setter
-    private String projectName;
+    private String type;
 
     @Getter
     @Setter
-    @Lob
-    @Column(name = "description", length = 2000000000)
-    private String description;
+    private String content;
 
     @Getter
     @Setter
-    private String outScope;
-
-    @Getter
-    @Setter
-    private String goal;
-
-    @Getter
-    @Setter
-    private String additionalRequirement;
-
-    @Getter
-    @Setter
-    private String link;
-
-    @Getter
-    @Setter
-    private String[] platform;
-
-    @Getter
-    @Setter
-    private Date create_at;
-
-    @Getter
-    @Setter
-    private Date end_at;
-
-    @Getter
-    @Setter
-    private String status;
-
-    @Getter
-    @Setter
-    private String[] language;
+    private Long link_id;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
     private User user;
-
 }
