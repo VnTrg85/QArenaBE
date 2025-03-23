@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
@@ -31,6 +32,8 @@ public class BugReport {
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "description", length = 2000000000)
     private String description;
 
     @Getter
