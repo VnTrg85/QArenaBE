@@ -56,6 +56,10 @@ public class BugReport {
     @Setter
     private String device;
 
+    @Getter
+    @Setter
+    private String reasonReject;
+
     @ManyToOne
     @JoinColumn(name = "bug_type_Id")
     @Getter
