@@ -29,6 +29,18 @@ public class Reproduction {
     @Setter
     private String proofLink;
 
+    @Getter
+    @Setter
+    private String device;
+
+    @Getter
+    @Setter
+    private String browswer;
+    
+    @Getter
+    @Setter
+    private Date time_created;
+
     @ManyToOne
     @JoinColumn(name = "bug_report_Id")
     @Getter

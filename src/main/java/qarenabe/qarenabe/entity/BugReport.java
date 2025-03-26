@@ -70,6 +70,10 @@ public class BugReport {
 
     @Getter
     @Setter
+    private String browswer;
+
+    @Getter
+    @Setter
     private String reasonReject;
 
     @ManyToOne
