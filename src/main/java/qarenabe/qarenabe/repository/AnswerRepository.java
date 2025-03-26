@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import qarenabe.qarenabe.entity.Answer;
 
 @Repository
-public interface AnswerRepository extends JpaRepository<Answer, Integer> {
+public interface AnswerRepository extends JpaRepository<Answer, Long> {
 }

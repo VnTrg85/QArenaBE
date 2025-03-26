@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import qarenabe.qarenabe.entity.Certificate;
 
 @Repository
-public interface CertificateRepository extends JpaRepository<Certificate, Integer> {
+public interface CertificateRepository extends JpaRepository<Certificate, Long> {
 }

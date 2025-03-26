@@ -1,22 +1,17 @@
 package qarenabe.qarenabe.service.AuthService;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Service;
 import qarenabe.qarenabe.dto.AuthRequest;
 import qarenabe.qarenabe.dto.AuthResponse;
-import  qarenabe.qarenabe.entity.*;
-import org.springframework.security.authentication.BadCredentialsException;
-import  qarenabe.qarenabe.repository.UserRepository;
-import  qarenabe.qarenabe.service.Security.SecurityService;
+import qarenabe.qarenabe.entity.User;
+import qarenabe.qarenabe.repository.UserRepository;
+import qarenabe.qarenabe.service.Security.SecurityService;
+
+import java.util.List;
 
 @Service
 public class AuthServiceImpl implements AuthService{

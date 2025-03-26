@@ -6,5 +6,5 @@ import qarenabe.qarenabe.entity.Question;
 
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 }
