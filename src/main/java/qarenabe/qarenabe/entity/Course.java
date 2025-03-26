@@ -11,14 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "courses")
 public class Course extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 2000000000 )
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",length = 2000000000 )
     private String description;
 
     @Column(nullable = false)

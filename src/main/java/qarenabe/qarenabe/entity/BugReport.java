@@ -33,8 +33,20 @@ public class BugReport {
     @Getter
     @Setter
     @Lob
-    @Column(name = "description", length = 2000000000)
-    private String description;
+    @Column(name = "url_test", length = 200)
+    private String url_test;
+
+    @Getter
+    @Setter
+    @Lob
+    @Column(name = "actual_result", length = 2000)
+    private String actual_result;
+
+    @Getter
+    @Setter
+    @Lob
+    @Column(name = "expected_result", length = 2000)
+    private String expected_result;
 
     @Getter
     @Setter

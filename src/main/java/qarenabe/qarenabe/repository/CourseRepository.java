@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import qarenabe.qarenabe.entity.Course;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 }

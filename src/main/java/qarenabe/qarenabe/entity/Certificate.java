@@ -12,9 +12,7 @@ import lombok.*;
 @Table(name = "certificates")
 public class Certificate extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

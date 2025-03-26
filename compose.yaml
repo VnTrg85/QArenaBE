@@ -3,8 +3,8 @@ services:
         image: "mysql:latest"
         environment:
             - "MYSQL_DATABASE=qarena"
-            - "MYSQL_PASSWORD=qarenadb"
+            - "MYSQL_PASSWORD=123456"
             - "MYSQL_ROOT_PASSWORD=verysecret"
             - "MYSQL_USER=myuser"
         ports:
-            - "3306"
+            - "65385:3306"

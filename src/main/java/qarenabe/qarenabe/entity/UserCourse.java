@@ -11,9 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "user_courses")
 public class UserCourse extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
