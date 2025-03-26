@@ -37,4 +37,8 @@ public class BugType {
     @Setter
     private String name;
 
+    @Getter
+    @Setter
+    private String icon_link;
+
 }
