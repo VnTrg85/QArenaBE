@@ -6,12 +6,17 @@ server:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/qarena_db
+        url: jdbc:mysql://192.168.1.180:3306/qarenabe-mysql-1
         username: root
-        password: root
+        password: verysecret
     jpa:
         database-platform: org.hibernate.dialect.MySQLDialect
         hibernate:
             ddl-auto: update
         show-sql: true
         open-in-view: true
+    security:
+        user:
+            name: admin
+            password: admin
+            roles: USER
