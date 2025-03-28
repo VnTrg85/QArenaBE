@@ -15,8 +15,7 @@ spring:
             ddl-auto: update
         show-sql: true
         open-in-view: true
-    security:
-        user:
-            name: admin
-            password: admin
-            roles: USER
+    autoconfigure: 
+            exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+    
