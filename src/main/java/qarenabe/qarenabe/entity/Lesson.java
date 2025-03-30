@@ -2,6 +2,7 @@ package qarenabe.qarenabe.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import qarenabe.qarenabe.enums.LessonEnum;
 
 
 @Getter
@@ -19,4 +20,11 @@ public class Lesson extends BaseEntity {
 
     @Column(nullable = false)
     private String link;
+
+    @Enumerated(EnumType.STRING)
+    private LessonEnum status = LessonEnum.LOCKED;
+
+    @ManyToOne
+    @JoinColumn(name = "previous_lesson_id")
+    private Lesson previousLesson;
 }

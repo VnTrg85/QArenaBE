@@ -12,8 +12,6 @@ import lombok.*;
 @Table(name = "certificates")
 public class Certificate extends BaseEntity {
 
-
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

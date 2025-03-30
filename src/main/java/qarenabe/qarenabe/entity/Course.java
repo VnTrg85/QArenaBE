@@ -12,17 +12,13 @@ import lombok.*;
 @Table(name = "courses")
 public class Course extends BaseEntity {
 
-    @Column(nullable = false, length = 2000000000 )
+    @Column(nullable = false ,unique = true)
     private String title;
 
     @Column(columnDefinition = "TEXT",length = 2000000000 )
     private String description;
 
-    @Column(nullable = false)
-    private Double price;
-
     @Column(name = "is_required", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean isRequired = false;
-
+    private boolean  isRequired = false;
 
 }
