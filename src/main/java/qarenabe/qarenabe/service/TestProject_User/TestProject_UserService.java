@@ -6,4 +6,5 @@ import qarenabe.qarenabe.dto.TestProjectUserResponse;
 
 public interface TestProject_UserService {
         public List<TestProjectUserResponse> getProjectByUserId(Long userId);
+        public TestProjectUserResponse createTestProject(Long userId, Long testProjectId);
 }

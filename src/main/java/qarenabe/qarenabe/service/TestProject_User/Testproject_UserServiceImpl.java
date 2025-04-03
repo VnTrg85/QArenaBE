@@ -10,13 +10,21 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.TestProjectUserResponse;
+import qarenabe.qarenabe.dto.TestprojectDTO;
+import qarenabe.qarenabe.entity.TestProject;
 import qarenabe.qarenabe.entity.TestProject_User;
 import qarenabe.qarenabe.repository.TestProject_UserRepository;
+import qarenabe.qarenabe.service.PayoutBug.PayoutBugService;
+import qarenabe.qarenabe.service.TestFeature.TestFeatureService;
 
 @Service
 public class Testproject_UserServiceImpl implements TestProject_UserService{
     @Autowired
     private TestProject_UserRepository testProject_UserRepository;
+    @Autowired
+    private TestFeatureService testFeatureService;
+    @Autowired
+    private PayoutBugService payoutBugService;
     @Override
     public List<TestProjectUserResponse> getProjectByUserId(Long userId) {
         try {
@@ -24,7 +32,9 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             List<TestProjectUserResponse> resLists = new ArrayList<>();
             
             for (TestProject_User item : lists) {
-                TestProjectUserResponse val = new TestProjectUserResponse(item.getId(), item.getStatus(), item.getTestProject());
+                TestProject selectedTest = item.getTestProject();
+                TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEnd_at(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
+                TestProjectUserResponse val = new TestProjectUserResponse(item.getId(), item.getStatus(), secondDTO);
                 resLists.add(val);
             }
             return resLists;
@@ -35,6 +45,10 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
         } catch (Exception e) { 
             throw new RuntimeException("An unexpected error occurred", e);
         }
-
+    }
+    @Override
+    public TestProjectUserResponse createTestProject(Long userId, Long testProjectId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createTestProject'");
     }
 }
