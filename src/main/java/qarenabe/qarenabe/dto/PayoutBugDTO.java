@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @AllArgsConstructor
-@Getter
-@Setter
-public class AuthResponse {
-    private String role;
-    private String email;
-    private String token;
+public class PayoutBugDTO {
+    @Getter
+    @Setter
+    private Long id;
+    @Getter
+    @Setter
+    private Long amount;
 }

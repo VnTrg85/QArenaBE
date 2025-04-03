@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import qarenabe.qarenabe.dto.AuthRequest;
 import qarenabe.qarenabe.entity.User;
 import qarenabe.qarenabe.entity.UserRole;
 import qarenabe.qarenabe.repository.UserRepository;
@@ -25,18 +26,21 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public String addUser(User user) {
-        try {
-            String encodePass = securityService.encode(user.getPassword());
-            user.setPassword(encodePass);
-            Long roleId = user.getUserRole().getId();
-            UserRole userRole = userRoleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("UserRole not found with id:" + roleId));
-            user.setUserRole(userRole);
-            userRepository.save(user);
-            return ""+user.getId();
-        } catch (Exception e) {
-            return e.getMessage();
+    public User addUser(AuthRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại!");
         }
+
+        UserRole role = userRoleRepository.findById(request.getRoleId())
+            .orElseThrow(() -> new RuntimeException("Vai trò không hợp lệ!"));
+        String encodePass = securityService.encode(request.getPassword());
+        User user = new User();
+        user.setPassword(encodePass);
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setUserRole(role);
+
+        return userRepository.save(user);
     }
 
     @Override

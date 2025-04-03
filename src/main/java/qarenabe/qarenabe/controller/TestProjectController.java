@@ -43,7 +43,7 @@ public class TestProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<TestprojectDTO> createProject(@RequestBody TestprojectDTO dto) {
         return ResponseEntity.status(201).body(testProjectService.createProject(dto));
     }
