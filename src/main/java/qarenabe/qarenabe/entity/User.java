@@ -28,6 +28,9 @@ public class User {
 
     @Getter
     @Setter
+    private String avatar;
+    @Getter
+    @Setter
     private String name;
 
     @Getter
