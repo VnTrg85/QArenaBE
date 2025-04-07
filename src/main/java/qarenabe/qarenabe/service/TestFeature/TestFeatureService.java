@@ -7,5 +7,6 @@ import qarenabe.qarenabe.entity.TestFeature;
 
 public interface TestFeatureService {
     public List<TestFeatureDTO>  getFeaturesByTestProject(Long testProjectId);
+    public List<TestFeatureDTO>  getDetailFeaturesByTestProject(Long testProjectId);
     public TestFeatureDTO createTestFeature(TestFeature testFeature);
 }
