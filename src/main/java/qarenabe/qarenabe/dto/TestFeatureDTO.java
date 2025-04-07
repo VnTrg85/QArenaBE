@@ -21,9 +21,6 @@ public class TestFeatureDTO {
     @Getter
     @Setter
     private String bugType;
-    @Getter
-    @Setter
-    private Long testProjectId;
     public TestFeatureDTO(Long id, String name) {
         this.id = id;
         this.name = name;

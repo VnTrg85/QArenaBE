@@ -1,6 +1,9 @@
 package qarenabe.qarenabe.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +44,20 @@ public class TestProjectController {
         return testProjectService.getProjectById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/getDetail/{id}")
+    public ResponseEntity<?> getDetailProjectById(@PathVariable Long id) {
+       HashMap<String,Object> response = new HashMap<>();
+       try {
+            TestprojectDTO testproject = testProjectService.getProjectDetailById(id);
+            response.put("status", "success");
+            response.put("data", testproject);
+            return ResponseEntity.ok(response);
+       } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response );
+       }
     }
 
     @PostMapping("/create")

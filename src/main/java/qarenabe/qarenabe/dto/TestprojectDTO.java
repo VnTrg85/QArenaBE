@@ -11,6 +11,9 @@ import java.util.List;
 public class TestprojectDTO {
     @Getter
     @Setter
+    private Long id;
+    @Getter
+    @Setter
     private String projectName;
     @Getter
     @Setter
@@ -69,7 +72,8 @@ public class TestprojectDTO {
         this.language = language;
         this.userId = userId;
     }
-    public TestprojectDTO(String projectName, String description, String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
+    public TestprojectDTO(Long id,String projectName, String description, String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
+        this.id = id;
         this.projectName = projectName;
         this.description = description;
         this.goal = goal;
