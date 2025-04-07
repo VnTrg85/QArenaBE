@@ -26,12 +26,13 @@ public class AuthServiceImpl implements AuthService{
         User user = userRepository.findByEmail(params.getEmail()).orElseThrow(() -> new BadCredentialsException("Email is not valid"));
 
         // Kiểm tra mật khẩu
-        if (securityService.decode(params.getPassword()).equals(user.getPassword())) {
+        if (securityService.decode(user.getPassword()).equals(params.getPassword())) {
+             // Tạo JWT token
+            String token = securityService.generateToken(user.getEmail());
+            return new AuthResponse(user.getUserRole().getName(),user.getEmail(),token);
+        }else {
             throw new BadCredentialsException("Incorrect password");
         }
-        // Tạo JWT token
-        String token = securityService.generateToken(user.getEmail());
-        return new AuthResponse(user.getUserRole().getName(),user.getEmail(),token);
     }
 
     @Override

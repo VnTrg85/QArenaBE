@@ -47,7 +47,7 @@ public class TestprojectDTO {
     private Long userId;
     @Getter
     @Setter
-    private List<TestFeatureDTO> testFeatues;
+    private List<TestFeatureDTO> testFeatures;
     @Getter
     @Setter
     private List<PayoutBugDTO> payoutBugs;
@@ -75,7 +75,7 @@ public class TestprojectDTO {
         this.end_At = end_at;
         this.status = status;
         this.language = language;
-        this.testFeatues = testFeatures;
+        this.testFeatures = testFeatures;
         this.payoutBugs = payoutBugs;
     }
 }

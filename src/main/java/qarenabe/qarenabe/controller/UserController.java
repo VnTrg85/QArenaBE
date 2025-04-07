@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import qarenabe.qarenabe.dto.AuthRequest;
+import qarenabe.qarenabe.dto.TestProjectUserResponse;
+import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.User;
 import qarenabe.qarenabe.service.User.UserService;
 
@@ -45,6 +50,20 @@ public class UserController {
             return ResponseEntity.ok(userService.getUser(id));
         }
         return ResponseEntity.ok(null);
+    }
+    @GetMapping("/getByEmail")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+      Map<String, Object> response = new HashMap<>();
+         try {
+            UserDTO res = userService.getUserByEmail(email);
+            response.put("status", "success");
+            response.put("data",res );
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody AuthRequest request) {

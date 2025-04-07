@@ -30,6 +30,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
     public Boolean verifyToken(String token, String subject) {
         try {
+            @SuppressWarnings("deprecation")
             Claims data = Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
                     .build()

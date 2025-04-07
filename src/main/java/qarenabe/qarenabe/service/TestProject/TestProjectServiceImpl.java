@@ -76,4 +76,15 @@ public class TestProjectServiceImpl implements TestProjectService {
             dto.getStatus(), dto.getLanguage(), user
         );
     }
+
+    @Override
+    public TestProjectDTO getProjectDetailById(Long id) {
+       try {
+        TestProject testproject = testProjectRepository.findById(id).get();
+        TestprojectDTO secondDTO = new TestprojectDTO(testproject.getProjectName(),testproject.getDescription(),testproject.getGoal(),testproject.getPlatform(),testproject.getCreate_at(),testproject.getEnd_at(),testproject.getStatus(),testproject.getLanguage(),testFeatureService.getFeaturesByTestProject(testproject.getId()),payoutBugService.getPayoutBugByProject(testproject.getId()));
+
+       } catch (Exception e) {
+        // TODO: handle exception
+       }
+    }
 }
