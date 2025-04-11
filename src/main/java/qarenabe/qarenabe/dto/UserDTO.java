@@ -30,4 +30,10 @@ public class UserDTO {
     @Getter
     @Setter
     private Long role;
+
+    public UserDTO(Long id,String name, String avatar)  {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
 }

@@ -51,6 +51,21 @@ public class TestFeatureController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getTestFeatureById(@PathVariable Long id) {
+        try {
+            TestFeatureDTO res = testFeatureService.getFeatureById(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
     @PostMapping("/create")
     public ResponseEntity<?> createTestFeature(@RequestBody TestFeature testFeature) {
         try {
