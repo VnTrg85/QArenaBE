@@ -1,7 +1,10 @@
 package qarenabe.qarenabe.entity;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +17,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.StringArrayConverter;
 
 @Data
 @Entity
@@ -50,10 +54,14 @@ public class BugReport {
 
     @Getter
     @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
     private String[] reproductionSteps;
 
     @Getter
     @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
     private String[] screenshotUrl;
 
     @Getter
@@ -83,6 +91,7 @@ public class BugReport {
     private BugType bugType;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
