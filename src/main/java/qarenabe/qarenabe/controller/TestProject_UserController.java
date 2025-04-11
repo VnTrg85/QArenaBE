@@ -43,18 +43,18 @@ public class TestProject_UserController {
     private TestProject_UserService testProject_UserService;
     @GetMapping("/get/user/{userId}")
     public ResponseEntity<?> getTestProjects(@PathVariable Long userId, @RequestHeader("Authorization") String token,@RequestHeader("Email") String email) {
-        System.out.println(token);
-        if(token.startsWith("Basic")) 
-        {
-            token = token.substring(6); 
-        }
-        if(!securityService.verifyToken(token, email))
-        {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", "Unauthorized");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
-        }
+        // System.out.println(token);
+        // if(token.startsWith("Basic")) 
+        // {
+        //     token = token.substring(6); 
+        // }
+        // if(!securityService.verifyToken(token, email))
+        // {
+        //     Map<String, Object> errorResponse = new HashMap<>();
+        //     errorResponse.put("status", "error");
+        //     errorResponse.put("message", "Unauthorized");
+        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+        // }
         Map<String, Object> response = new HashMap<>();
          try {
             List<TestProjectUserResponse> responseList = testProject_UserService.getProjectByUserId(userId);
@@ -68,21 +68,21 @@ public class TestProject_UserController {
         }
     }
 
-    @GetMapping("/create")
-    public ResponseEntity<?> createTestProjects(@RequestBody Long userId, @RequestBody Long projectId,@RequestHeader("Authorization") String token,@RequestHeader("Authorization") String email) {
-        if(!securityService.verifyToken(token, email))
-        {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("status", "error");
-            errorResponse.put("message", "Unauthorized");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
-        }
+    @PostMapping("/create")
+    public ResponseEntity<?> createTestProjects(@RequestBody TestProject_User data,@RequestHeader("Authorization") String token,@RequestHeader("Authorization") String email) {
+        // if(!securityService.verifyToken(token, email))
+        // {
+        //     Map<String, Object> errorResponse = new HashMap<>();
+        //     errorResponse.put("status", "error");
+        //     errorResponse.put("message", "Unauthorized");
+        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+        // }
         
         Map<String, Object> response = new HashMap<>();
         try {
-            List<TestProjectUserResponse> responseList = testProject_UserService.getProjectByUserId(userId);
+            TestProjectUserResponse res = testProject_UserService.createTestProject(data);
             response.put("status", "success");
-            response.put("data", responseList);
+            response.put("data", res);
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
             response .put("status", "error");
