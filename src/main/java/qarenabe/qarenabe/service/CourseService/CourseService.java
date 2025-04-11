@@ -2,7 +2,6 @@ package qarenabe.qarenabe.service.CourseService;
 
 import qarenabe.qarenabe.dto.CourseRequestDTO;
 import qarenabe.qarenabe.dto.CourseResponseDTO;
-import qarenabe.qarenabe.entity.Course;
 
 import java.util.List;
 

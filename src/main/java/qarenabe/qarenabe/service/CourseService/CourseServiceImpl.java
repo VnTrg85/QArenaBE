@@ -4,18 +4,24 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import qarenabe.qarenabe.dto.CourseRequestDTO;
 import qarenabe.qarenabe.dto.CourseResponseDTO;
 import qarenabe.qarenabe.entity.Course;
+import qarenabe.qarenabe.entity.UserCourse;
 import qarenabe.qarenabe.enums.ErrorCodeEnum;
 import qarenabe.qarenabe.enums.SuccessCodeEnum;
 import qarenabe.qarenabe.exception.AppException;
 import qarenabe.qarenabe.mapper.CourseMapper;
 import qarenabe.qarenabe.repository.CourseRepository;
+import qarenabe.qarenabe.repository.UserCourseRepository;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -24,7 +30,7 @@ public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
     CourseMapper courseMapper;
-
+    UserCourseRepository userCourseRepository;
     @Override
     public List<CourseResponseDTO> getAllCourse() {
         return courseRepository.findAll().stream().map(courseMapper::toCourseResponse).toList();
@@ -39,6 +45,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponseDTO addCourse(CourseRequestDTO courseRequestDTO) {
         Course course = courseMapper.toCourse(courseRequestDTO);
+        if(course.getLinkImg()==null){
+            throw new AppException(ErrorCodeEnum.IMG_IS_NULL);
+        }
         try {
             courseRepository.save(course);
         } catch (DataIntegrityViolationException exception) {
@@ -56,6 +65,8 @@ public class CourseServiceImpl implements CourseService {
         if (courses.size() != ids.size()) {
             throw new AppException(ErrorCodeEnum.COURSE_NOT_EXISTED);
         }
+        List<UserCourse> userCourses=courses.stream().flatMap(course -> course.getUserCourses().stream()).toList();
+        userCourseRepository.deleteAll(userCourses);
         courseRepository.deleteByIdIn(ids);
         return SuccessCodeEnum.DELETE_SUCCESS.getMsg();
     }
