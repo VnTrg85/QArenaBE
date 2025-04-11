@@ -1,47 +1,46 @@
 package qarenabe.qarenabe.entity;
-import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-public class Session {
+@AllArgsConstructor
+public class Device {
     @Id
-    @Getter
-    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Long id;
+    @Getter
+    @Setter
+    private String name;
 
     @Getter
     @Setter
-    private Date start_at;
+    private String icon_link;
+
 
     @Getter
     @Setter
-    private Date end_at;
-
-    @ManyToOne
-    @JoinColumn(name = "test_project_Id")
-    @Getter
-    @Setter
-    private TestProject testProject;
+    private String[] version;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "category_device_id")
     @Getter
     @Setter
-    private User user;
+    private CategoryDevice categoryDevice;
+
+
 }

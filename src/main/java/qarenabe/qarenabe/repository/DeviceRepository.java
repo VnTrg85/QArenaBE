@@ -1,14 +1,15 @@
+
+
 package qarenabe.qarenabe.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import qarenabe.qarenabe.entity.Session;
+import qarenabe.qarenabe.entity.Device;
 @Repository
-public interface SessionRepository extends JpaRepository<Session,Long> {
+public interface DeviceRepository  extends JpaRepository<Device,Long> {
 
-    List<Session> findAllByTestProjectId(Long testProjectId);
-    
+    List<Device> findByCategoryDeviceId(Long id);
 }
+

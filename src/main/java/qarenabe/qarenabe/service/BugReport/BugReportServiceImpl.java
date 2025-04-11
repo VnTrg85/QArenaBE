@@ -12,6 +12,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import qarenabe.qarenabe.dto.BugReportDTO;
@@ -20,10 +24,18 @@ import qarenabe.qarenabe.entity.BugType;
 import qarenabe.qarenabe.repository.BugReportRepository;
 import qarenabe.qarenabe.repository.TestProjectRepository;
 
+import qarenabe.qarenabe.dto.BugReportDTO;
+import qarenabe.qarenabe.dto.UserDTO;
+import qarenabe.qarenabe.entity.BugReport;
+import qarenabe.qarenabe.repository.BugReportRepository;
+import qarenabe.qarenabe.service.LessonService.LessonServiceImpl;
+
 @Service
 public class BugReportServiceImpl implements BugReportService {
+
     @Autowired
     private BugReportRepository bugReportRepository;
+
 
     @Autowired
     private TestProjectRepository testProjectRepository;

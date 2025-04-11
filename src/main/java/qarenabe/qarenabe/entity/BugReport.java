@@ -97,4 +97,21 @@ public class BugReport {
     @Setter
     private TestProject testProject;
 
+    @ManyToOne
+    @JoinColumn(name = "feature_Id")
+    @Getter
+    @Setter
+    private TestFeature testFeature;
+
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    @Getter
+    @Setter
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "session_Id")
+    @Getter
+    @Setter
+    private Session session;
 }
