@@ -3,6 +3,7 @@ package qarenabe.qarenabe.entity;
 import java.util.Date;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.StringArrayConverter;
 
 @Data
 @Entity
@@ -55,6 +57,8 @@ public class TestProject {
 
     @Getter
     @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
     private String[] platform;
 
     @Getter
@@ -71,6 +75,8 @@ public class TestProject {
 
     @Getter
     @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
     private String[] language;
 
     @ManyToOne

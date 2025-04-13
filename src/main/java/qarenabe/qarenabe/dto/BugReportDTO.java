@@ -1,47 +1,27 @@
 package qarenabe.qarenabe.dto;
-
 import java.util.Date;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import qarenabe.qarenabe.entity.BugType;
-import qarenabe.qarenabe.entity.TestFeature;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class BugReportDTO {
-    @Getter
-    @Setter
+   
     private Long id;
-
-    @Getter
-    @Setter
     private String title;
-
-    @Getter
-    @Setter
+    private String url_test;
+    private String actual_result;
+    private String expected_result;
+    private String[] reproductionSteps;
+    private String[] screenshotUrl;
     private String status;
-
-    @Getter
-    @Setter
     private Date reported_at;
-
-    @Getter
-    @Setter
-    private String bugType;
-
-    @Getter
-    @Setter
-    private String testFeature;
-
-    @Getter
-    @Setter
-    private UserDTO user;
-
+    private String device;
+    private String browswer;
+    private String reasonReject;
+    private Long bugTypeId;
+    private Long testProjectId;
 }

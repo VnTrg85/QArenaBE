@@ -69,7 +69,7 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             entity.setTestProject(testProject);
             TestProject_User res =  testProject_UserRepository.save(entity);
             TestProject selectedTest = res.getTestProject();
-            TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getId(),selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEnd_at(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
+            TestprojectDTO secondDTO = new TestprojectDTO(null, selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEnd_at(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
             TestProjectUserResponse val = new TestProjectUserResponse(res.getId(), res.getStatus(), secondDTO);
             return val;
         }

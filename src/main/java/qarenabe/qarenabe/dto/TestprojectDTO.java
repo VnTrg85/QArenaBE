@@ -54,6 +54,9 @@ public class TestprojectDTO {
     @Getter
     @Setter
     private List<PayoutBugDTO> payoutBugs;
+    @Getter
+    @Setter
+    private List<BugReportDTO> bugReports;
 
     public TestprojectDTO(String projectName, String description,String outScope ,String additionalRequirement,String link,String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, Long userId) {
         this.projectName = projectName;

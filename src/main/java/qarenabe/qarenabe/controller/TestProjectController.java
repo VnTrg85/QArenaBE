@@ -34,7 +34,7 @@ public class TestProjectController {
     @Autowired
     private TestProjectService testProjectService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<TestprojectDTO>> getAllProjects() {
         return ResponseEntity.ok(testProjectService.getAllProjects());
     }
@@ -60,7 +60,7 @@ public class TestProjectController {
        }
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<TestprojectDTO> createProject(@RequestBody TestprojectDTO dto) {
         return ResponseEntity.status(201).body(testProjectService.createProject(dto));
     }
