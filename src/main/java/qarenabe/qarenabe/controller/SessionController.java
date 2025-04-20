@@ -36,7 +36,7 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
     @GetMapping("/get/userId/{userId}/project/{projectId}")
-    public ResponseEntity<?> getByUserProject(@RequestParam Long userId, @RequestParam Long projectId) {
+    public ResponseEntity<?> getByUserProject(@PathVariable Long userId, @PathVariable Long projectId) {
         Map<String, Object> response = new HashMap<>();
         try {
             List<Session> res = sessionService.getSessionsByProjectId(userId, projectId);
@@ -49,8 +49,22 @@ public class SessionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+    @GetMapping("/get/userId/{userId}/project/{projectId}/doing")
+    public ResponseEntity<?> getDoingSessionUserProject(@PathVariable Long userId, @PathVariable Long projectId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Session res = sessionService.getSessionsDoingByProjectId(userId, projectId);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
     @PostMapping("/create")
-    public ResponseEntity<?> postMethodName(@RequestBody Session session) {
+    public ResponseEntity<?> createSession(@RequestBody Session session) {
         Map<String, Object> response = new HashMap<>();
         try {
             Session res = sessionService.createSession(session);
@@ -64,8 +78,8 @@ public class SessionController {
         }
     }
 
-    @PostMapping("/end")
-    public ResponseEntity<?> postMethodName(@RequestBody Long sessionId) {
+    @PostMapping("/end/{sessionId}")
+    public ResponseEntity<?> endSession(@PathVariable Long sessionId) {
         Map<String, Object> response = new HashMap<>();
         try {
             Session res = sessionService.endSession(sessionId);

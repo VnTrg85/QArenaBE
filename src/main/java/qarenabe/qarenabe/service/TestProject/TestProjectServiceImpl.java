@@ -81,7 +81,7 @@ public class TestProjectServiceImpl implements TestProjectService {
             null, dto.getProjectName(), dto.getDescription(), dto.getOutScope(),
             dto.getGoal(), dto.getAdditionalRequirement(), dto.getLink(),
             dto.getPlatform(), dto.getCreate_At(), dto.getEnd_At(),
-            dto.getStatus(), dto.getLanguage(), user
+            dto.getStatus(), dto.getLanguage(), user,null
         );
     }
 

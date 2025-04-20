@@ -5,7 +5,6 @@ import qarenabe.qarenabe.entity.TestFeature;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestprojectDTO {

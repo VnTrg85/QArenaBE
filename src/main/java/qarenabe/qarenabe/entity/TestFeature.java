@@ -1,11 +1,5 @@
 package qarenabe.qarenabe.entity;
-import java.beans.Transient;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,12 +8,11 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import qarenabe.qarenabe.conveter.LongListConverter;
+import qarenabe.qarenabe.converter.LongListConverter;
 
 @Data
 @Entity
@@ -54,4 +47,9 @@ public class TestFeature {
     @Getter
     @Setter
     private TestProject testProject;
+
+    public TestFeature(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

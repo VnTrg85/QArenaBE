@@ -1,5 +1,6 @@
 package qarenabe.qarenabe.entity;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +29,15 @@ public class Session {
 
     @Getter
     @Setter
-    private Date start_at;
+    private Date startAt;
 
     @Getter
     @Setter
-    private Date end_at;
+    private Date endAt;
+
+    @Getter
+    @Setter
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
@@ -44,4 +50,10 @@ public class Session {
     @Getter
     @Setter
     private User user;
+
+    @OneToMany
+    @JoinColumn(name = "bug_id")
+    @Getter
+    @Setter
+    private List<BugReport> Bugs;
 }

@@ -1,6 +1,8 @@
 package qarenabe.qarenabe.entity;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,14 +31,25 @@ public class Message {
     @Setter
     private String content;
 
+    @Getter
+    @Setter
+    private Date time_created;
+
+    
     @ManyToOne
-    @JoinColumn(name = "bug_report_Id")
+    @JoinColumn(name = "bug_report_Id", nullable = true)
     @Getter
     @Setter
     private BugReport bugReport;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "test_project_Id", nullable = true)
+    @Getter
+    @Setter
+    private TestProject testProject;
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
     @Getter
     @Setter
     private User user;

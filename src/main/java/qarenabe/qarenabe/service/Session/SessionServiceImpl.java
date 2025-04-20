@@ -1,10 +1,13 @@
 package qarenabe.qarenabe.service.Session;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -32,7 +35,7 @@ public class SessionServiceImpl implements SessionService {
             session.setUser(user);
             session.setTestProject(testProject);
             sessionRepository.save(session);
-            Session resSession = new Session(session.getId(), session.getStart_at(), session.getEnd_at(), null, null);
+            Session resSession = new Session(session.getId(), session.getStartAt(), session.getEndAt(), session.getStatus(),new TestProject(session.getTestProject().getId()), null,null);
             return resSession;
        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -43,8 +46,10 @@ public class SessionServiceImpl implements SessionService {
     public Session endSession(Long sessionId) {
         try {
             Session session = sessionRepository.findById(sessionId).orElseThrow(() -> new EntityNotFoundException("Session not found with ID"));
-            session.setEnd_at(new Date());
-            Session resSession = new Session(session.getId(), session.getStart_at(), session.getEnd_at(), null, null);
+            session.setEndAt(new Date());
+            session.setStatus("done");
+            sessionRepository.save(session);
+            Session resSession = new Session(session.getId(), session.getStartAt(), session.getEndAt(),session.getStatus(), new TestProject(session.getTestProject().getId()), null,null);
             return resSession;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -58,7 +63,7 @@ public class SessionServiceImpl implements SessionService {
             List<Session> sessionsRes = new ArrayList<>();
             for (Session session : sessions) {
                 if(session.getUser().getId() == userId && session.getTestProject().getId() == testProjectId) {
-                    Session resSession = new Session(session.getId(), session.getStart_at(), session.getEnd_at(), null, null);
+                    Session resSession = new Session(session.getId(), session.getStartAt(), session.getEndAt(),session.getStatus(), new TestProject(session.getTestProject().getId()), null,null);
                     sessionsRes.add(resSession);
                 }   
             }
@@ -68,5 +73,31 @@ public class SessionServiceImpl implements SessionService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public Session getSessionsDoingByProjectId(Long userId, Long testProjectId) {
+        try {
+            List<Session> sessions = sessionRepository.findAll();
+            for (Session session : sessions) {
+                if(session.getUser().getId() == userId && session.getTestProject().getId() == testProjectId && session.getStatus().equalsIgnoreCase("doing")) {
+                    Session resSession = new Session(session.getId(), session.getStartAt(), session.getEndAt(),session.getStatus(), new TestProject(session.getTestProject().getId()), null,null);
+                    return resSession;
+                }   
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
     
+    
+    @Scheduled(fixedRate = 60000)
+    public void autoEndSessions() {
+        List<Session> sessions = sessionRepository.findByStatusNotAndEndAtBefore("done", LocalDateTime.now());
+
+        for (Session session : sessions) {
+            session.setStatus("done");
+        }
+        sessionRepository.saveAll(sessions);
+    }
 }

@@ -3,7 +3,6 @@ package qarenabe.qarenabe.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 
 
 @Getter

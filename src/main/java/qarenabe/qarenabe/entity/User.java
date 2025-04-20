@@ -60,4 +60,10 @@ public class User {
     @Setter
     private UserRole userRole;
 
+
+    public User(Long id,String name,String avatar) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
 }

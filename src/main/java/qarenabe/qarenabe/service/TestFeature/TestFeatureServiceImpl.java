@@ -82,7 +82,6 @@ public class TestFeatureServiceImpl implements TestFeatureService{
             ArrayList<BugType> bugtypeList = new ArrayList<>();
             if(testFeature.getBugTypeId() != null) {
                 for (Long bugTypeID  : testFeature.getBugTypeId()) {
-                    System.out.print(bugTypeID);
                     BugType bugType = bugTypeService.getBugTypeById(bugTypeID);
                     bugtypeList.add(bugType);
                 }

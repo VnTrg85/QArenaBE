@@ -6,17 +6,17 @@ services:
             - "MYSQL_DATABASE=qarena"
             - "MYSQL_PASSWORD=qarenadb"
             - "MYSQL_ROOT_PASSWORD=verysecret"
-            - "MYSQL_USER=myuser"
+            - "MYSQL_USER=qarena"
         ports:
-        - "3306:3306" 
+            - "3306:3306"
         volumes:
-         - mysql_data:/var/lib/mysql
+            - mysql_data:/var/lib/mysql
         networks:
-        - shared_network
+            - shared_network
 
 networks:
-  shared_network:
-    driver: bridge
+    shared_network:
+        driver: bridge
 
 volumes:
-  mysql_data:
+    mysql_data:

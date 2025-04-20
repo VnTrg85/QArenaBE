@@ -1,6 +1,7 @@
 package qarenabe.qarenabe.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -84,5 +86,16 @@ public class TestProject {
     @Getter
     @Setter
     private User user;
+
+
+    @OneToMany
+    @JoinColumn(name = "deviceId")
+    @Getter
+    @Setter
+    private List<Device> devices;
+
+    public TestProject(Long id) {
+        this.id = id;
+    }
 
 }

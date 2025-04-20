@@ -1,27 +1,26 @@
 package qarenabe.qarenabe.entity;
-import java.util.Date;
 
-import com.example.demo.enums.TypeNotification;
+import java.util.List;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.LongListConverter;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notification {
+public class UserDevice {
     @Id
     @Getter
     @Setter
@@ -30,25 +29,23 @@ public class Notification {
 
     @Getter
     @Setter
-    private TypeNotification type;
+    private String versionSelected;
 
     @Getter
     @Setter
-    private String content;
-
-    @Getter
-    @Setter
-    private Long link_id;
+    @Convert(converter = LongListConverter.class)
+    private List<Long> browserIds;
 
     @ManyToOne
-    @JoinColumn(name = "senderId")
+    @JoinColumn(name = "device_id")
     @Getter
     @Setter
-    private User sender;
+    private Device device;
+
 
     @ManyToOne
-    @JoinColumn(name = "receiverId")
+    @JoinColumn(name = "user_id")
     @Getter
     @Setter
-    private User receiver;
+    private User user;
 }

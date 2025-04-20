@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -72,13 +73,15 @@ public class BugReport {
     @Setter
     private Date reported_at;
 
+    @ManyToOne
+    @JoinColumn(name = "browserId")
     @Getter
     @Setter
-    private String device;
+    private Browser browser;
 
     @Getter
     @Setter
-    private String browswer;
+    private String versionSelected;
 
     @Getter
     @Setter
@@ -91,7 +94,6 @@ public class BugReport {
     private BugType bugType;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
@@ -114,4 +116,9 @@ public class BugReport {
     @Getter
     @Setter
     private Session session;
+    @OneToOne
+    @JoinColumn(name = "device_Id")
+    @Getter
+    @Setter
+    private Device device;
 }

@@ -8,23 +8,21 @@ import jakarta.persistence.Converter;
 @Converter(autoApply = false)
 public class StringArrayConverter implements AttributeConverter<String[], String> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String SPLIT_CHAR = ",";
 
     @Override
     public String convertToDatabaseColumn(String[] attribute) {
-        try {
-            return objectMapper.writeValueAsString(attribute);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to convert String[] to JSON String", e);
+        if (attribute == null || attribute.length == 0) {
+            return "";
         }
+        return String.join(SPLIT_CHAR, attribute);
     }
 
     @Override
     public String[] convertToEntityAttribute(String dbData) {
-        try {
-            return objectMapper.readValue(dbData, String[].class);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to convert JSON String to String[]", e);
+        if (dbData == null || dbData.trim().isEmpty()) {
+            return new String[0];
         }
+        return dbData.split(SPLIT_CHAR);
     }
 }

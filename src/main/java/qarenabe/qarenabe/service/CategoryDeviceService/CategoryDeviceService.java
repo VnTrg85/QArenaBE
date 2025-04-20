@@ -2,6 +2,7 @@ package qarenabe.qarenabe.service.CategoryDeviceService;
 
 import java.util.List;
 
+
 import qarenabe.qarenabe.entity.CategoryDevice;
 
 public interface CategoryDeviceService {

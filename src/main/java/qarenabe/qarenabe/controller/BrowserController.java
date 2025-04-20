@@ -3,8 +3,10 @@ package qarenabe.qarenabe.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import qarenabe.qarenabe.entity.Browser;
 import qarenabe.qarenabe.entity.BugType;
 import qarenabe.qarenabe.entity.CategoryDevice;
+import qarenabe.qarenabe.service.BrowserService.BrowserService;
 import qarenabe.qarenabe.service.CategoryDeviceService.CategoryDeviceService;
 
 import java.util.HashMap;
@@ -19,22 +21,21 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
-@RequestMapping("/categoryDevice")
-public class CategoryDeviceController {
+@RequestMapping("/browser")
+public class BrowserController {
 
     @Autowired
-    private CategoryDeviceService categoryDeviceService;
+    private BrowserService browserService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getListCategoryDevice() {
+    public ResponseEntity<?> getListBrowser() {
         Map<String, Object> response = new HashMap<>();
          try {
-            List<CategoryDevice> res = categoryDeviceService.getListCategoryDevice();
+            List<Browser> res = browserService.getBrowsers();
             response.put("status", "success");
             response.put("data", res);
             return ResponseEntity.ok(response);
@@ -46,10 +47,10 @@ public class CategoryDeviceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCategoryDevice(@RequestBody CategoryDevice categoryDevice){ 
+    public ResponseEntity<?> createBrowser(@RequestBody Browser browser){ 
         Map<String, Object> response = new HashMap<>();
          try {
-            CategoryDevice res = categoryDeviceService.createCategoryDevice(categoryDevice);
+            Browser res = browserService.createBrowser(browser);
             response.put("status", "success");
             response.put("data", res);
             return ResponseEntity.ok(response);

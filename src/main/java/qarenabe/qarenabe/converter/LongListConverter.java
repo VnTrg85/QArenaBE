@@ -1,4 +1,4 @@
-package qarenabe.qarenabe.conveter;
+package qarenabe.qarenabe.converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter
+@Converter(autoApply = false)
 public class LongListConverter implements AttributeConverter<List<Long>, String> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();

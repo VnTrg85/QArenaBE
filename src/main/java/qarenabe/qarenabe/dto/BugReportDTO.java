@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BugReportDTO {
-   
     private Long id;
     private String title;
     private String url_test;
@@ -19,7 +18,6 @@ public class BugReportDTO {
     private String[] screenshotUrl;
     private String status;
     private Date reported_at;
-    private String device;
     private String browswer;
     private String reasonReject;
     private Long bugTypeId;

@@ -27,9 +27,12 @@ public class BugReportDTOSecond {
     private String bugTypeName;
     @Getter
     @Setter
+    private String feature;
+    @Getter
+    @Setter
     private UserDTO user;
 
-    public BugReportDTOSecond(Long id, String title, String status, Date reported_at, String icon_link, String bugtype_name, UserDTO user) {
+    public BugReportDTOSecond(Long id, String title, String status, Date reported_at, String icon_link, String bugtype_name, UserDTO user, String feature) {
         this.id = id;
         this.title = title;
         this.status = status;
@@ -37,5 +40,6 @@ public class BugReportDTOSecond {
         this.bugTypeIcon = icon_link;
         this.bugTypeName = bugtype_name;
         this.user = user;
+        this.feature = feature;
     }
 }
