@@ -16,13 +16,13 @@ public class Answer extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+      Question question;
 
     @Column(columnDefinition = "TEXT", nullable = false,length = 1000)
-    private String content;
+      String content;
 
     @Column(name = "is_correct", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean isCorrect = false;
+      Boolean isCorrect = false;
 
 
 }

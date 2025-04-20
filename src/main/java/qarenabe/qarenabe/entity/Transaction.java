@@ -23,33 +23,33 @@ public class Transaction {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String paymentMethod;
+      String paymentMethod;
 
     @Getter
     @Setter
-    private Double amount;
+      Double amount;
 
     @Getter
     @Setter
-    private Date payment_date;
+      Date payment_date;
 
     @Getter
     @Setter
-    private String status;
+      String status;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private User user;
+      User user;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-    private TestProject testProject;
+      TestProject testProject;
 }

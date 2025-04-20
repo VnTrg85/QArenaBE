@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    private UserService userService;
+      UserService userService;
     @Autowired
-    private AuthService authService;
+      AuthService authService;
     
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest params,HttpServletResponse response) {

@@ -23,21 +23,21 @@ public class PayoutBug {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private Long amount;
+      Long amount;
 
     @ManyToOne
     @JoinColumn(name = "bug_type_Id")
     @Getter
     @Setter
-    private BugType bugType;
+      BugType bugType;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-    private TestProject testProject;
+      TestProject testProject;
 }

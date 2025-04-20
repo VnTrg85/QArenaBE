@@ -1,4 +1,4 @@
-package qarenabe.qarenabe.service.UserCourseService;
+package qarenabe.qarenabe.service.UserCourse;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import qarenabe.qarenabe.repository.UserCourseRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel. PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Service
 public class UserCourseServiceImpl implements UserCourseService {

@@ -24,68 +24,68 @@ public class BugReport {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String title;
+      String title;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "url_test", length = 200)
-    private String url_test;
+      String url_test;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "actual_result", length = 2000)
-    private String actual_result;
+      String actual_result;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "expected_result", length = 2000)
-    private String expected_result;
+      String expected_result;
 
     @Getter
     @Setter
-    private String[] reproductionSteps;
+      String[] reproductionSteps;
 
     @Getter
     @Setter
-    private String[] screenshotUrl;
+      String[] screenshotUrl;
 
     @Getter
     @Setter
-    private String status;
+      String status;
 
     @Getter
     @Setter
-    private Date reported_at;
+      Date reported_at;
 
     @Getter
     @Setter
-    private String device;
+      String device;
 
     @Getter
     @Setter
-    private String browswer;
+      String browswer;
 
     @Getter
     @Setter
-    private String reasonReject;
+      String reasonReject;
 
     @ManyToOne
     @JoinColumn(name = "bug_type_Id")
     @Getter
     @Setter
-    private BugType bugType;
+      BugType bugType;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-    private TestProject testProject;
+      TestProject testProject;
 
 }

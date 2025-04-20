@@ -3,6 +3,8 @@ package qarenabe.qarenabe.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -14,14 +16,15 @@ public class UserCourse extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+      User user;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+      Course course;
+
+    @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL)
+      List<UserLesson> userLessons;
 
     @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean isCompleted = false;
-
-
+      Boolean isCompleted = false;
 }

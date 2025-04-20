@@ -1,23 +1,34 @@
 package qarenabe.qarenabe.service.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import qarenabe.qarenabe.entity.User;
-import qarenabe.qarenabe.entity.UserRole;
-import qarenabe.qarenabe.repository.UserRepository;
-import qarenabe.qarenabe.repository.UserRoleRepository;
+import qarenabe.qarenabe.entity.*;
+import qarenabe.qarenabe.enums.ErrorCodeEnum;
+import qarenabe.qarenabe.exception.AppException;
+import qarenabe.qarenabe.repository.*;
 import qarenabe.qarenabe.service.Security.*;
+
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    private UserRepository userRepository;
+      UserRepository userRepository;
     @Autowired 
-    private SecurityService securityService;
+      SecurityService securityService;
     @Autowired 
-    private UserRoleRepository userRoleRepository;
+      UserRoleRepository userRoleRepository;
+    @Autowired
+      CourseRepository courseRepository;
+    @Autowired
+      UserCourseRepository userCourseRepository;
+    @Autowired
+      UserLessonRepository  userLessonRepository;
+    @Autowired
+      LessonRepository lessonRepository;
+
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -33,11 +44,49 @@ public class UserServiceImpl implements UserService{
             UserRole userRole = userRoleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("UserRole not found with id:" + roleId));
             user.setUserRole(userRole);
             userRepository.save(user);
+            addUserCourse(user);
             return ""+user.getId();
         } catch (Exception e) {
             return e.getMessage();
         }
     }
+      void addUserCourse(User user ) {
+        if (user.getUserRole().getName().equals("TESTER")) {
+            List<Course> allCourses = courseRepository.findAll();
+            List<Long> courseIds = new ArrayList<>();
+            for (Course item : allCourses) {
+                Long id = item.getId();
+                courseIds.add(id);
+            }
+            for (Course course : allCourses) {
+                UserCourse userCourse = new UserCourse();
+                userCourse.setUser(user);
+                userCourse.setCourse(course);
+                userCourse.setIsCompleted(false);
+                userCourseRepository.save(userCourse);
+            }
+            addUserLesson(courseIds,user);
+        }
+    }
+    public void addUserLesson(List<Long> courseIds,User user){
+        for (Long courseId : courseIds) {
+
+            UserCourse userCourse = userCourseRepository.findByUserIdAndCourseId(user.getId(), courseId)
+                    .orElseThrow(() -> new AppException(ErrorCodeEnum.INVALID_COURSE_ID));
+            List<Lesson> lessons = lessonRepository.findByCourseId(courseId);
+            List<UserLesson> userLessons = new ArrayList<>();
+            for (Lesson lesson : lessons) {
+                UserLesson userLesson = new UserLesson();
+                userLesson.setUserCourse(userCourse);
+                userLesson.setLesson(lesson);
+                userLesson.setIsCompleted(false);
+                userLessons.add(userLesson);
+            }
+
+            userLessonRepository.saveAll(userLessons);
+        }
+    }
+
 
     @Override
     public String updateUser(User user) {

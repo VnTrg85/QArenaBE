@@ -25,58 +25,58 @@ public class TestProject {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String projectName;
+      String projectName;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "description", length = 2000000000)
-    private String description;
+      String description;
 
     @Getter
     @Setter
-    private String outScope;
+      String outScope;
 
     @Getter
     @Setter
-    private String goal;
+      String goal;
 
     @Getter
     @Setter
-    private String additionalRequirement;
+      String additionalRequirement;
 
     @Getter
     @Setter
-    private String link;
+      String link;
 
     @Getter
     @Setter
-    private String[] platform;
+      String[] platform;
 
     @Getter
     @Setter
-    private Date create_at;
+      Date create_at;
 
     @Getter
     @Setter
-    private Date end_at;
+      Date end_at;
 
     @Getter
     @Setter
-    private String status;
+      String status;
 
     @Getter
     @Setter
-    private String[] language;
+      String[] language;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private User user;
+      User user;
 
 }

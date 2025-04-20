@@ -18,9 +18,9 @@ import qarenabe.qarenabe.service.Security.SecurityService;
 @Service
 public class AuthServiceImpl implements AuthService{
     @Autowired 
-    private UserRepository userRepository;
+      UserRepository userRepository;
     @Autowired
-    private SecurityService securityService;
+      SecurityService securityService;
     @Override
     public AuthResponse login(AuthRequest params, HttpServletResponse response) {
         List<User> users = userRepository.findAll();

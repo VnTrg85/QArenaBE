@@ -23,33 +23,33 @@ public class Reproduction {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String proofLink;
+      String proofLink;
 
     @Getter
     @Setter
-    private String device;
+      String device;
 
     @Getter
     @Setter
-    private String browswer;
+      String browswer;
     
     @Getter
     @Setter
-    private Date time_created;
+      Date time_created;
 
     @ManyToOne
     @JoinColumn(name = "bug_report_Id")
     @Getter
     @Setter
-    private BugReport bugReport;
+      BugReport bugReport;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private User user;
+      User user;
 }

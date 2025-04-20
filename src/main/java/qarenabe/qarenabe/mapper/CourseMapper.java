@@ -7,9 +7,11 @@ import qarenabe.qarenabe.dto.CourseRequestDTO;
 import qarenabe.qarenabe.dto.CourseResponseDTO;
 import qarenabe.qarenabe.entity.Course;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {LessonMapper.class})
 public interface CourseMapper {
+    @Mapping(target = "lessons", source = "lessons")
     CourseResponseDTO toCourseResponse(Course course);
+
     Course toCourse(CourseRequestDTO courseResponseDTO);
     
     @Mapping(target = "id", ignore = true)

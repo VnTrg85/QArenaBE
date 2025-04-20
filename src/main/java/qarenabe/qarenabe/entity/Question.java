@@ -14,10 +14,11 @@ public class Question extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+      Course course;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
+      String content;
 
-
+    @Column(name = "is_true", columnDefinition = "BOOLEAN DEFAULT FALSE")
+      Boolean isTrue = false;
 }

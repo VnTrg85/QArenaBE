@@ -12,11 +12,10 @@ spring:
     jpa:
         database-platform: org.hibernate.dialect.MySQLDialect
         hibernate:
-#            ddl-auto: create-drop
+            #            ddl-auto: create-drop
             ddl-auto: update
         show-sql: true
         open-in-view: true
-    autoconfigure: 
-            exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+    autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
-    

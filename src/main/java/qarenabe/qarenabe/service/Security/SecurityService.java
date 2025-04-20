@@ -6,4 +6,5 @@ public interface SecurityService {
     public String decode(String text);
     public Boolean verifyToken(String token,String subject);
     public String generateToken(String subject);
+    Long getCurrentUserId();
 }

@@ -23,19 +23,19 @@ public class Session {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private Date start_at;
+      Date start_at;
 
     @Getter
     @Setter
-    private Date end_at;
+      Date end_at;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-    private TestProject testProject;
+      TestProject testProject;
 }

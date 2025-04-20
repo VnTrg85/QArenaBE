@@ -2,7 +2,6 @@ package qarenabe.qarenabe.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import qarenabe.qarenabe.enums.LessonEnum;
 
 
 @Getter
@@ -13,18 +12,23 @@ import qarenabe.qarenabe.enums.LessonEnum;
 @Table(name = "lessons")
 public class Lesson extends BaseEntity {
 
-
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+      Course course;
 
     @Column(nullable = false)
-    private String link;
+      String title;
 
-    @Enumerated(EnumType.STRING)
-    private LessonEnum status = LessonEnum.LOCKED;
+    @Column(nullable = false)
+      String link;
 
     @ManyToOne
     @JoinColumn(name = "previous_lesson_id")
-    private Lesson previousLesson;
+    Lesson previousLesson;
+
+    @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
+      Boolean isCompleted = false;
+
+    @Column(name = "is_blocked", columnDefinition = "BOOLEAN DEFAULT TRUE")
+      Boolean isBlocked = true;
 }

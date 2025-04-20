@@ -7,49 +7,57 @@ import org.springframework.web.bind.annotation.*;
 import qarenabe.qarenabe.dto.ApiResponse;
 import qarenabe.qarenabe.dto.CourseRequestDTO;
 import qarenabe.qarenabe.dto.CourseResponseDTO;
-import qarenabe.qarenabe.enums.SuccessCodeEnum;
 import qarenabe.qarenabe.service.CourseService.CourseService;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/course")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CourseController {
 
     CourseService courseService;
 
-    @GetMapping
-    ApiResponse<List<CourseResponseDTO>> getUsers() {
+    @GetMapping("/getAll")
+    ApiResponse<List<CourseResponseDTO>> getAllCourse() {
         return ApiResponse.<List<CourseResponseDTO>>builder()
                 .data(courseService.getAllCourse())
                 .build();
     }
-    @PostMapping
+
+    //        @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/create")
     ApiResponse<CourseResponseDTO> createCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
         return ApiResponse.<CourseResponseDTO>builder().
                 data(courseService.addCourse(courseRequestDTO))
-                .message(SuccessCodeEnum.ADD_SUCCESS.getMsg())
                 .build();
     }
-    @GetMapping("/{id}")
-    ApiResponse<CourseResponseDTO> getCourse(@PathVariable Long id) {
+
+    @GetMapping()
+    ApiResponse<CourseResponseDTO> getCourse(@RequestParam Long id) {
         return ApiResponse.<CourseResponseDTO>builder()
                 .data(courseService.getCourseById(id))
                 .build();
     }
-    @DeleteMapping("/{ids}")
-    ApiResponse<String> deleteCourse(@PathVariable List<Long> ids) {
+
+    //        @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{ids}")
+    public ApiResponse<String> deleteCourses(@PathVariable String ids) {
+        List<Long> idList = Arrays.stream(ids.split(",")).map(Long::parseLong).toList();
         return ApiResponse.<String>builder()
-                .data(courseService.deleteCourseByIds(ids))
+                .data(courseService.deleteCourseByIds(idList))
                 .build();
     }
 
-    @PutMapping ("/{courseId}")
-    ApiResponse<CourseResponseDTO> updateCourse(@PathVariable Long courseId ,@RequestBody CourseRequestDTO courseRequestDTO) {
+    //        @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update/{courseId}")
+    ApiResponse<CourseResponseDTO> updateCourse(@PathVariable Long courseId, @RequestBody CourseRequestDTO courseRequestDTO) {
         return ApiResponse.<CourseResponseDTO>builder()
-                .data(courseService.updateCourse(courseId,courseRequestDTO))
+                .data(courseService.updateCourse(courseId, courseRequestDTO))
                 .build();
     }
 }

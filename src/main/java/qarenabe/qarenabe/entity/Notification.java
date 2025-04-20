@@ -24,23 +24,23 @@ public class Notification {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String type;
+      String type;
 
     @Getter
     @Setter
-    private String content;
+      String content;
 
     @Getter
     @Setter
-    private Long link_id;
+      Long link_id;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private User user;
+      User user;
 }

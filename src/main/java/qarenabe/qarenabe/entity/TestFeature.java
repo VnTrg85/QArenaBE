@@ -23,27 +23,27 @@ public class TestFeature {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String name;
+      String name;
 
     @Getter
     @Setter
-    private String input;
+      String input;
 
     @Getter
     @Setter
-    private String output;
+      String output;
 
     @Getter
     @Setter
-    private String bugType;
+      String bugType;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-    private TestProject testProject;
+      TestProject testProject;
 }

@@ -23,21 +23,21 @@ public class Message {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String content;
+      String content;
 
     @ManyToOne
     @JoinColumn(name = "bug_report_Id")
     @Getter
     @Setter
-    private BugReport bugReport;
+      BugReport bugReport;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-    private User user;
+      User user;
 }

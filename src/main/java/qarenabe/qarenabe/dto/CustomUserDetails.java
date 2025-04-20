@@ -1,2 +1,8 @@
-package qarenabe.qarenabe.dto;public class CustomUserDetails {
+package qarenabe.qarenabe.dto;
+
+import lombok.Getter;
+
+@Getter
+public class CustomUserDetails {
+     Long id;
 }

@@ -13,7 +13,7 @@ import qarenabe.qarenabe.repository.UserRoleRepository;
 @Service
 public class UserRoleServiceImpl implements UserRoleService{
     @Autowired
-    private UserRoleRepository userRoleRepository;
+      UserRoleRepository userRoleRepository;
 
     @Override
     public List<UserRole> getUserRoles() {

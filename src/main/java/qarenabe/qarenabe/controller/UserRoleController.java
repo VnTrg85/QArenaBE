@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/userRole")
 public class UserRoleController {
     @Autowired
-    private UserRoleService userRoleService;
+      UserRoleService userRoleService;
     
     @GetMapping("/getAll")
     @JsonManagedReference

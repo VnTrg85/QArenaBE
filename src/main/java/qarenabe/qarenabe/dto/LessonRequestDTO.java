@@ -1,2 +1,18 @@
-package qarenabe.qarenabe.dto;public class LessonRequestDTO {
+package qarenabe.qarenabe.dto;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE )
+public class LessonRequestDTO {
+    Long courseId;
+    String title;
+    String link;
+    boolean isBlocked;
 }

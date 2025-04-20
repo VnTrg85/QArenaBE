@@ -7,8 +7,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCourseResponse {
+@FieldDefaults(level = AccessLevel.PRIVATE )
+public class UserCourseResponseDTO {
     Long userId;
     Long courseId;
     String courseName;

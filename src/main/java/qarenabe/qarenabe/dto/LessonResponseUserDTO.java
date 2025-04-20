@@ -1,2 +1,20 @@
-package qarenabe.qarenabe.dto;public class LessonResponseUserDTO {
+package qarenabe.qarenabe.dto;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE )
+@NoArgsConstructor
+@AllArgsConstructor
+public class LessonResponseUserDTO {
+      Long id;
+      String title;
+      Long courseId;
+      String courseName;
+      Boolean isCompleted;
+      Boolean isBlocked;
 }

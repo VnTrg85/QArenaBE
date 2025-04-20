@@ -1,2 +1,13 @@
-package qarenabe.qarenabe.dto;public class IntrospectRequest {
+package qarenabe.qarenabe.dto;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel. PRIVATE)
+public class IntrospectRequest {
+    String token;
 }
