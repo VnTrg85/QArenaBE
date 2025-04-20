@@ -1,7 +1,6 @@
 package qarenabe.qarenabe.entity;
-import java.util.Date;
-
-import jakarta.persistence.Column;
+import java.util.List;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +12,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.LongListConverter;
 
 @Data
 @Entity
@@ -37,13 +37,19 @@ public class TestFeature {
     @Setter
       String output;
 
-    @Getter
     @Setter
-      String bugType;
+    @Getter
+    @Convert(converter = LongListConverter.class)
+    private List<Long> bugTypeId;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-      TestProject testProject;
+    private TestProject testProject;
+
+    public TestFeature(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

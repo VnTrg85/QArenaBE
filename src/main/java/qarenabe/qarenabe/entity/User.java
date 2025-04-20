@@ -20,7 +20,10 @@ public class User {
 
     @Getter
     @Setter
-      String name;
+    private String avatar;
+    @Getter
+    @Setter
+    private String name;
 
     @Getter
     @Setter
@@ -50,6 +53,12 @@ public class User {
     @Setter
       UserRole userRole;
 
+
+    public User(Long id,String name,String avatar) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
     @OneToMany(mappedBy = "user")
       List<UserCourse> userCourses;
 }

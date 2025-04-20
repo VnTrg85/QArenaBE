@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import qarenabe.qarenabe.dto.CustomUserDetails;
@@ -30,17 +31,25 @@ public class SecurityServiceImpl implements SecurityService {
         String decodedString = new String(decodedBytes);
         return decodedString;
     }
-    @Override
     public Boolean verifyToken(String token, String subject) {
-        @SuppressWarnings("deprecation")
-        Claims data =  Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        boolean checkBool = data.getSubject().equals(subject);
-        checkBool = data.getExpiration().after(new Date(data.getExpiration().getTime() + 86400000));
-        return checkBool;
+        try {
+            @SuppressWarnings("deprecation")
+            Claims data = Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // Kiểm tra subject
+            boolean checkBool = data.getSubject().equals(subject);
+
+            // Kiểm tra token chưa hết hạn
+            checkBool = checkBool && data.getExpiration().after(new Date());
+
+            return checkBool;
+        } catch (JwtException e) {
+            return false; // Token không hợp lệ hoặc hết hạn
+        }
     }
 
     @Override

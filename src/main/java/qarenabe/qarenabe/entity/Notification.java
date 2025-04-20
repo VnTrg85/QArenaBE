@@ -1,6 +1,8 @@
 package qarenabe.qarenabe.entity;
 import java.util.Date;
 
+import com.example.demo.enums.TypeNotification;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +30,7 @@ public class Notification {
 
     @Getter
     @Setter
-      String type;
+    private TypeNotification type;
 
     @Getter
     @Setter
@@ -39,8 +41,14 @@ public class Notification {
       Long link_id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "senderId")
     @Getter
     @Setter
-      User user;
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiverId")
+    @Getter
+    @Setter
+    private User receiver;
 }

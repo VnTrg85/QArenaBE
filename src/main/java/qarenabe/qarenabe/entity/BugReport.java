@@ -1,7 +1,10 @@
 package qarenabe.qarenabe.entity;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,10 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.StringArrayConverter;
 
 @Data
 @Entity
@@ -50,11 +55,15 @@ public class BugReport {
 
     @Getter
     @Setter
-      String[] reproductionSteps;
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] reproductionSteps;
 
     @Getter
     @Setter
-      String[] screenshotUrl;
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] screenshotUrl;
 
     @Getter
     @Setter
@@ -64,13 +73,15 @@ public class BugReport {
     @Setter
       Date reported_at;
 
+    @ManyToOne
+    @JoinColumn(name = "browserId")
     @Getter
     @Setter
-      String device;
+    private Browser browser;
 
     @Getter
     @Setter
-      String browswer;
+    private String versionSelected;
 
     @Getter
     @Setter
@@ -88,4 +99,26 @@ public class BugReport {
     @Setter
       TestProject testProject;
 
+    @ManyToOne
+    @JoinColumn(name = "feature_Id")
+    @Getter
+    @Setter
+    private TestFeature testFeature;
+
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    @Getter
+    @Setter
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "session_Id")
+    @Getter
+    @Setter
+    private Session session;
+    @OneToOne
+    @JoinColumn(name = "device_Id")
+    @Getter
+    @Setter
+    private Device device;
 }

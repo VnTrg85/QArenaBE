@@ -3,11 +3,15 @@ package qarenabe.qarenabe.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class AuthResponse {
-      String token;
+    private String role;
+    private String email;
+    private String token;
 }

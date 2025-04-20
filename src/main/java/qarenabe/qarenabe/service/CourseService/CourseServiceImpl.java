@@ -14,7 +14,6 @@ import qarenabe.qarenabe.enums.SuccessCodeEnum;
 import qarenabe.qarenabe.exception.AppException;
 import qarenabe.qarenabe.mapper.CourseMapper;
 import qarenabe.qarenabe.repository.CourseRepository;
-import qarenabe.qarenabe.repository.UserCourseRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
