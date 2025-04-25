@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import qarenabe.qarenabe.dto.CertificateResponseDTO;
 import qarenabe.qarenabe.dto.LessonResponseUserDTO;
 import qarenabe.qarenabe.entity.Certificate;
 import qarenabe.qarenabe.entity.Lesson;
@@ -15,7 +14,6 @@ import qarenabe.qarenabe.entity.UserLesson;
 import qarenabe.qarenabe.enums.ErrorCodeEnum;
 import qarenabe.qarenabe.enums.SuccessCodeEnum;
 import qarenabe.qarenabe.exception.AppException;
-import qarenabe.qarenabe.mapper.CertificateMapper;
 import qarenabe.qarenabe.mapper.LessonMapper;
 import qarenabe.qarenabe.repository.CertificateRepository;
 import qarenabe.qarenabe.repository.LessonRepository;
@@ -39,7 +37,6 @@ public class UserLessonServiceImpl implements UserLessonService {
     UserLessonRepository userLessonRepository;
     CertificateRepository certificateRepository;
     LessonMapper lessonMapper;
-    CertificateMapper certificateMapper;
 
     @Override
     public Object completeLessonAndUnlockNext(Long userId, Long lessonId) {
@@ -57,8 +54,8 @@ public class UserLessonServiceImpl implements UserLessonService {
         List<Lesson> allLessons = lessonRepository.findByCourseId(currentLesson.getCourse().getId());
 
         Optional<Lesson> nextLessonOpt = allLessons.stream()
-                .filter(lesson -> lesson.getPreviousLesson() != null &&
-                        lesson.getPreviousLesson().getId().equals(currentLesson.getId()))
+                .filter(lesson -> lesson.getLessonRequired() != null &&
+                        lesson.getLessonRequired().getId().equals(currentLesson.getId()))
                 .findFirst();
         if (nextLessonOpt.isPresent()) {
             Lesson nextLesson = nextLessonOpt.get();

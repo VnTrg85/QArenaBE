@@ -3,19 +3,23 @@ server:
     error:
         include-message: always
     address: 0.0.0.0
+
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.1.180:3306/qarenabe-mysql-1
-        username: root
-        password: verysecret
+        url: jdbc:mysql://0.tcp.ap.ngrok.io:10527/qarena
+        username: qarena
+        password: qarenadb
     jpa:
         database-platform: org.hibernate.dialect.MySQLDialect
         hibernate:
-            #            ddl-auto: create-drop
             ddl-auto: update
-        show-sql: true
+#        show-sql: true
         open-in-view: true
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
+    # Tắt Docker Compose nếu bạn không sử dụng nó
+    docker:
+        compose:
+            enabled: false

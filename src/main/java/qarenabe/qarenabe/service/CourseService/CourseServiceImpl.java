@@ -13,6 +13,7 @@ import qarenabe.qarenabe.enums.ErrorCodeEnum;
 import qarenabe.qarenabe.enums.SuccessCodeEnum;
 import qarenabe.qarenabe.exception.AppException;
 import qarenabe.qarenabe.mapper.CourseMapper;
+import qarenabe.qarenabe.mapper.UserCourseMapper;
 import qarenabe.qarenabe.repository.CourseRepository;
 import qarenabe.qarenabe.repository.UserCourseRepository;
 
@@ -29,26 +30,17 @@ public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
     CourseMapper courseMapper;
+    UserCourseRepository userCourseRepository;
+    UserCourseMapper userCourseMapper;
 
-    private String findNameCourseDenpen(Long id){
-        return courseRepository.findById(id).get().getTitle();
-    }
     @Override
     public List<CourseResponseDTO> getAllCourse() {
         return courseRepository.findAll().stream()
-                .map(course -> {
-                    CourseResponseDTO dto = courseMapper.toCourseResponse(course);
-                    if (course.getRequiredCourse() != null ) {
-                        String dependenceCourseName = findNameCourseDenpen(course.getRequiredCourse().getId());
-                        dto.setDependenceCourse(dependenceCourseName);
-                    } else {
-                        dto.setDependenceCourse(null);
-                    }
-                    return dto;
-                })
+                .map(courseMapper::toCourseResponse)
                 .collect(Collectors.toList());
     }
 
+    // Phương thức cho Admin: Lấy khóa học theo ID
     @Override
     public CourseResponseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
@@ -60,12 +52,13 @@ public class CourseServiceImpl implements CourseService {
         Course current = target;
         while (current != null) {
             if (current.equals(newCourse)) {
-                return true; // Tạo vòng lặp
+                return true;
             }
             current = current.getRequiredCourse();
         }
         return false;
     }
+    // Thêm khóa học mới
     @Override
     public CourseResponseDTO addCourse(CourseRequestDTO courseRequestDTO) {
         Course course = courseMapper.toCourse(courseRequestDTO);
@@ -73,22 +66,15 @@ public class CourseServiceImpl implements CourseService {
         if (course.getLinkImg() == null) {
             throw new AppException(ErrorCodeEnum.IMG_IS_NULL);
         }
-
-        // Nếu có requiredCourseId thì tìm và gán
         if (courseRequestDTO.getRequiredCourseId() != null) {
             Course requiredCourse = courseRepository.findById(courseRequestDTO.getRequiredCourseId())
                     .orElseThrow(() -> new AppException(ErrorCodeEnum.REQUIRED_COURSE_NOT_FOUND));
 
-            // Kiểm tra vòng lặp phụ thuộc nếu cần
             if (hasCircularDependency(requiredCourse, course)) {
                 throw new AppException(COURSE_DEPENDENCY);
             }
 
             course.setRequiredCourse(requiredCourse);
-        }
-        String dependenceCourseName = null;
-        if (course.getRequiredCourse() != null) {
-            dependenceCourseName = findNameCourseDenpen(course.getRequiredCourse().getId());
         }
 
         try {
@@ -96,12 +82,11 @@ public class CourseServiceImpl implements CourseService {
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCodeEnum.COURSE_EXISTED);
         }
-        CourseResponseDTO courseResponseDTO = courseMapper.toCourseResponse(course);
-        courseResponseDTO.setDependenceCourse(dependenceCourseName);
-        return courseResponseDTO;
+
+        return courseMapper.toCourseResponse(course);
     }
 
-
+    // Xóa khóa học theo danh sách IDs
     @Override
     public String deleteCourseByIds(List<Long> ids) {
         if (ids == null || ids.isEmpty()) {
@@ -122,7 +107,6 @@ public class CourseServiceImpl implements CourseService {
                     .map(Course::getTitle)
                     .collect(Collectors.joining(", "));
 
-            // Gợi ý: bạn có thể log hoặc throw exception ở đây
             throw new AppException(ErrorCodeEnum.COURSE_DEPENDENCY);
         }
 
@@ -130,26 +114,15 @@ public class CourseServiceImpl implements CourseService {
         return SuccessCodeEnum.DELETE_SUCCESS.getMsg();
     }
 
-
     @Override
     public CourseResponseDTO updateCourse(Long id, CourseRequestDTO courseRequestDTO) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCodeEnum.COURSE_NOT_EXISTED));
 
-        courseMapper.updateCourse(course, courseRequestDTO); // Update course using the mapper
+        courseMapper.updateCourse(course, courseRequestDTO);
 
-        // Gán tên khóa học phụ thuộc
-        String dependenceCourseName = null;
-        if (course.getRequiredCourse() != null) {
-            dependenceCourseName = findNameCourseDenpen(course.getRequiredCourse().getId());
-        }
-
-        // Only save once after the update
         Course updatedCourse = courseRepository.save(course);
 
-        // Set DependenceCourse in response DTO
-        CourseResponseDTO courseResponseDTO = courseMapper.toCourseResponse(updatedCourse);
-        courseResponseDTO.setDependenceCourse(dependenceCourseName);
-        return courseResponseDTO;
+        return courseMapper.toCourseResponse(updatedCourse);
     }
 }

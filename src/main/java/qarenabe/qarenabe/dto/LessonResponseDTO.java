@@ -16,4 +16,6 @@ public class LessonResponseDTO {
       String link;
       Long courseId;
       String courseName;
+      Long lessonRequiredId;
+      String lessonRequiredTitle;
 }

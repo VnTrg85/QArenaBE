@@ -23,8 +23,8 @@ public class Lesson extends BaseEntity {
       String link;
 
     @ManyToOne
-    @JoinColumn(name = "previous_lesson_id")
-    Lesson previousLesson;
+    @JoinColumn(name = "lesson_required_id")
+    Lesson lessonRequired;
 
     @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
       Boolean isCompleted = false;

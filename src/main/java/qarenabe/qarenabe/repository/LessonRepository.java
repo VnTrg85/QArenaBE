@@ -11,11 +11,6 @@ import java.util.List;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-    void deleteByIdIn(List<Long> ids);
-
-    @Query("SELECT l FROM Lesson l WHERE l.previousLesson.id = :lessonId ORDER BY l.id ASC")
-    Lesson findNextLesson(@Param("lessonId") Long lessonId);
     List<Lesson> findByCourseId(Long courseId);
-    Lesson findTopByCourseIdOrderByCreatedAtDesc (Long courseId);
-    List<Lesson> findByPreviousLessonIdIn(List<Long> ids);
+    List<Lesson> findByLessonRequiredIdIn(List<Long> ids);
 }

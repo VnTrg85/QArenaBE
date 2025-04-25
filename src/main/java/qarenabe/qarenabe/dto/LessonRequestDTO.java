@@ -15,4 +15,5 @@ public class LessonRequestDTO {
     String title;
     String link;
     boolean isBlocked;
+    Long lessonRequiredId;
 }

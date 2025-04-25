@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
         }
     }
       void addUserCourse(User user ) {
-        if (user.getUserRole().getName().equals("TESTER")) {
+        if (user.getUserRole().getName().equals("tester")) {
             List<Course> allCourses = courseRepository.findAll();
             List<Long> courseIds = new ArrayList<>();
             for (Course item : allCourses) {

@@ -12,19 +12,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_courses")
-public class UserCourse extends BaseEntity{
+public class UserCourse extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-      User user;
+    User user;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-      Course course;
+    Course course;
 
     @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL)
-      List<UserLesson> userLessons;
+    List<UserLesson> userLessons;
 
     @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
-      Boolean isCompleted = false;
+    Boolean isCompleted = false;
 }
