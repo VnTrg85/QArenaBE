@@ -69,7 +69,8 @@ public class TestProject {
 
     @Getter
     @Setter
-    private Date end_at;
+    @Column(name = "end_at")
+    private Date endAt;
 
     @Getter
     @Setter

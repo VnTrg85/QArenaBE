@@ -6,7 +6,7 @@ server:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://0.tcp.ap.ngrok.io:13650/qarena
+        url: jdbc:tcp://0.tcp.ap.ngrok.io:10527/qarena
         username: myuser
         password: qarenadb
     jpa:

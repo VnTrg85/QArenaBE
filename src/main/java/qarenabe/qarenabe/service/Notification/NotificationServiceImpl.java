@@ -29,10 +29,39 @@ public class NotificationServiceImpl implements NotificationService{
             for (Notification notification : listNoti) {
                 UserDTO sender = new UserDTO(notification.getSender().getId(), notification.getSender().getName(), notification.getSender().getAvatar());
                 UserDTO receiver = new UserDTO(notification.getReceiver().getId(), notification.getReceiver().getName(), notification.getReceiver().getAvatar());
-                NotificationDTO noti = new NotificationDTO(notification.getId(), notification.getType(), notification.getContent(), notification.getLink_id(), sender, receiver);
+                NotificationDTO noti = new NotificationDTO(notification.getId(), notification.getType(), notification.getContent(), notification.getLink_url(), sender, receiver);
                 notificationDTOs.add(noti);
             }
             return notificationDTOs;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    @Override
+    public Long getNumberUnReadByUser(Long id) {
+        try {
+            List<Notification> listNotis = notificationRepository.findAllByReceiverId(id);
+            Long number = (long) 0;
+            for (Notification notification : listNotis) {
+                if(!notification.getIsRead()) {
+                    number+=1;
+                }
+            }   
+            return number;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+    @Override
+    public void markAllRead(Long id) {
+        try {
+            List<Notification> listNotis = notificationRepository.findAllByReceiverId(id);
+            for (Notification notification : listNotis) {
+                if(!notification.getIsRead()) {
+                    notification.setIsRead(true);
+                }
+            }   
+            notificationRepository.saveAll(listNotis);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

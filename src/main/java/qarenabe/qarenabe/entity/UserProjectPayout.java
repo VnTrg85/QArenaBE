@@ -24,10 +24,10 @@ import qarenabe.qarenabe.converter.StringArrayConverter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class BugReport {
+public class UserProjectPayout {
     @Id
-    @Setter
     @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -1,9 +1,13 @@
 package qarenabe.qarenabe.dto;
-import lombok.*;
 import qarenabe.qarenabe.entity.TestFeature;
 
 import java.util.Date;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -71,7 +75,7 @@ public class TestprojectDTO {
         this.language = language;
         this.userId = userId;
     }
-    public TestprojectDTO(Long id,String projectName, String description, String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
+    public TestprojectDTO(Long id,String projectName, String description, String goal, String[] platform,Date create_at, Date end_at, String link,String outScope,String status, String[] language, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
         this.id = id;
         this.projectName = projectName;
         this.description = description;
@@ -81,6 +85,8 @@ public class TestprojectDTO {
         this.end_At = end_at;
         this.status = status;
         this.language = language;
+        this.outScope = outScope;
+        this.link = link;
         this.testFeatures = testFeatures;
         this.payoutBugs = payoutBugs;
     }

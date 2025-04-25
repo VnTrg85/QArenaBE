@@ -46,11 +46,30 @@ public class User {
     @Setter
     private String password;
 
-
+    @Getter
+    @Setter
+    @Column(length = 2000000000 )
+    private String bio;
     @Getter
     @Setter
     private String address;
 
+    @Getter
+    @Setter
+    private String city;
+    
+    @Getter
+    @Setter
+    private Date date_of_birth;
+
+    @Getter
+    @Setter
+    private String payout_method;
+
+    @Getter
+    @Setter
+    private String payout_account_info;
+    
     @Getter
     @Setter
     private Date create_at;

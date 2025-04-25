@@ -1,16 +1,13 @@
 package qarenabe.qarenabe.entity;
-import java.util.Date;
 
 import com.example.demo.enums.TypeNotification;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
@@ -38,7 +35,11 @@ public class Notification {
 
     @Getter
     @Setter
-    private Long link_id;
+    private String link_url;
+
+    @Getter
+    @Setter
+    private Boolean isRead;
 
     @ManyToOne
     @JoinColumn(name = "senderId")

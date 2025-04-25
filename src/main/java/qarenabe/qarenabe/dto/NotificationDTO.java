@@ -29,7 +29,7 @@ public class NotificationDTO{
 
     @Getter
     @Setter
-    private Long link_id;
+    private String link_url;
 
     @Getter
     @Setter
