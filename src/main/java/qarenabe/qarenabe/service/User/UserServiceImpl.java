@@ -2,9 +2,11 @@ package qarenabe.qarenabe.service.User;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.AuthRequest;
 import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.User;
@@ -46,12 +48,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String updateUser(User user) {
+    public UserDTO updateUser(User user) {
         try {
-            userRepository.save(user);
-            return "Updated";
+            User userRes = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
+            userRes.setName(user.getName());
+            userRes.setPhone(user.getPhone());
+            userRes.setAddress(user.getAddress());
+            userRes.setCity(user.getCity());
+            userRes.setDate_of_birth(user.getDate_of_birth());
+            userRepository.save(userRes);
+            UserDTO userdto = new  UserDTO(userRes.getId(),userRes.getAvatar(), userRes.getName(), userRes.getEmail(), userRes.getPhone(), userRes.getAddress(),userRes.getCity(),userRes.getDate_of_birth(),userRes.getCreate_at(), userRes.getUserRole().getId());
+            return userdto;
         } catch (Exception e) {
-            return "Failed to update user";
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -81,12 +90,24 @@ public class UserServiceImpl implements UserService{
     public UserDTO getUserByEmail(String email) {
         try {
             User user = userRepository.findByEmail(email).get();
-            UserDTO userRes = new  UserDTO(user.getId(),user.getAvatar(), user.getName(), user.getEmail(), user.getPhone(), user.getAddress(), user.getUserRole().getId());
+            UserDTO userRes = new  UserDTO(user.getId(),user.getAvatar(), user.getName(), user.getEmail(), user.getPhone(), user.getAddress(),user.getCity(),user.getDate_of_birth(),user.getCreate_at(), user.getUserRole().getId());
             return userRes;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
+    }
+
+
+    @Override
+    public void updateAvatar(UserDTO user) {
+        try {
+            User userRes = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
+            userRes.setAvatar(user.getAvatar());
+            userRepository.save(userRes);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
 }

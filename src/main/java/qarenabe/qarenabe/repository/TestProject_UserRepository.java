@@ -13,5 +13,7 @@ public interface TestProject_UserRepository extends JpaRepository<TestProject_Us
     List<TestProject_User> findByUserId(Long userId);
 
     List<TestProject_User> findByTestProject(TestProject project);
+
+    List<TestProject_User> findAllByTestProjectId(Long id);
     
 }

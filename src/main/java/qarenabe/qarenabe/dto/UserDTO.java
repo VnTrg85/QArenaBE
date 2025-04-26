@@ -31,6 +31,15 @@ public class UserDTO {
     private String address;
     @Getter
     @Setter
+    private String city;
+    @Getter
+    @Setter
+    private Date dateOfBirth;
+    @Getter
+    @Setter
+    private Date createAt;
+    @Getter
+    @Setter
     private Long role;
 
     public UserDTO(Long id,String name, String avatar)  {

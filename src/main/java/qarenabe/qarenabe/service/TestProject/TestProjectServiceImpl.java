@@ -104,12 +104,11 @@ public class TestProjectServiceImpl implements TestProjectService {
     public void updateTestProjectUsersStatus() {
         Date now = new Date();
         List<TestProject> endedProjects = testProjectRepository.findByEndAtBefore(now);
-
         for (TestProject project : endedProjects) {
-            List<TestProject_User> tpUsers = testProject_UserRepository.findByTestProject(project);
+            List<TestProject_User> tpUsers = testProject_UserRepository.findAllByTestProjectId(project.getId());
             for (TestProject_User tpUser : tpUsers) {
-                if (!"done".equalsIgnoreCase(tpUser.getStatus())) {
-                    tpUser.setStatus("done");
+                if (!"Done".equalsIgnoreCase(tpUser.getStatus())) {
+                    tpUser.setStatus("Done");
                     testProject_UserRepository.save(tpUser);
                 }
             }

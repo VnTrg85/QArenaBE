@@ -10,7 +10,8 @@ public interface UserService {
     public List<User> getUsers();
     public User getUser(Long id);
     public User addUser(AuthRequest user);
-    public String updateUser(User user);
+    public UserDTO updateUser(User user);
+    public void updateAvatar(UserDTO user);
     public String deleteUser(Long id);
     public UserDTO getUserByEmail(String email);
 }

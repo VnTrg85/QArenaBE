@@ -1,8 +1,5 @@
 package qarenabe.qarenabe.entity;
 
-import java.util.List;
-
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +11,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import qarenabe.qarenabe.converter.LongListConverter;
 
 
 @Data
