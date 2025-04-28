@@ -36,6 +36,11 @@ public class TestProjectServiceImpl implements TestProjectService {
         return testProjectRepository.findById(id).map(this::convertToDTO);
     }
 
+    public List<TestprojectDTO> getAllProjectsByUserId(Long userId) {
+        List<TestProject> projects = testProjectRepository.findByUser_Id(userId);
+        return projects.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     public TestprojectDTO createProject(TestprojectDTO dto) {
         User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
         TestProject project = convertToEntity(dto, user);
@@ -66,9 +71,9 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     private TestprojectDTO convertToDTO(TestProject project) {
-        return new TestprojectDTO(
+        return new TestprojectDTO(project.getId(),
             project.getProjectName(), project.getDescription(), project.getOutScope(),
-            project.getGoal(), project.getAdditionalRequirement(), project.getLink(),
+            project.getAdditionalRequirement(), project.getLink(), project.getGoal(),
             project.getPlatform(), project.getCreate_at(), project.getEnd_at(),
             project.getStatus(), project.getLanguage(), project.getUser().getId()
         );
@@ -76,7 +81,7 @@ public class TestProjectServiceImpl implements TestProjectService {
 
     private TestProject convertToEntity(TestprojectDTO dto, User user) {
         return new TestProject(
-            null, dto.getProjectName(), dto.getDescription(), dto.getOutScope(),
+            dto.getId(), dto.getProjectName(), dto.getDescription(), dto.getOutScope(),
             dto.getGoal(), dto.getAdditionalRequirement(), dto.getLink(),
             dto.getPlatform(), dto.getCreate_At(), dto.getEnd_At(),
             dto.getStatus(), dto.getLanguage(), user

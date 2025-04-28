@@ -58,7 +58,9 @@ public class TestprojectDTO {
     @Setter
     private List<BugReportDTO> bugReports;
 
-    public TestprojectDTO(String projectName, String description,String outScope ,String additionalRequirement,String link,String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, Long userId) {
+
+    public TestprojectDTO(Long id,String projectName, String description,String outScope ,String additionalRequirement,String link,String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, Long userId) {
+        this.id = id;
         this.projectName = projectName;
         this.description = description;
         this.outScope  = outScope;

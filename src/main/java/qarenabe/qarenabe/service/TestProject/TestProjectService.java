@@ -11,4 +11,5 @@ public interface TestProjectService {
     public TestprojectDTO createProject(TestprojectDTO dto);
     public Optional<TestprojectDTO> updateProject(Long id, TestprojectDTO dto);
     public void deleteProject(Long id);
+    public List<TestprojectDTO> getAllProjectsByUserId(Long userId);
 }
