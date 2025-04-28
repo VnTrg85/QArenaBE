@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -38,10 +39,14 @@ public class TestFeature {
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "input", length = 2000000000)
     private String input;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "output", length = 2000000000)
     private String output;
 
     @Setter
