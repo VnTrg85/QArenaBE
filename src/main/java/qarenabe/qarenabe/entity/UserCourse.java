@@ -27,4 +27,8 @@ public class UserCourse extends BaseEntity {
 
     @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
     Boolean isCompleted = false;
+
+    @Column(name = "is_blocked", nullable = false)
+    Boolean isBlocked = true;
+
 }

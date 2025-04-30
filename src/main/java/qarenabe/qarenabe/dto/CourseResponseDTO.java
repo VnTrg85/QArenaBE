@@ -18,6 +18,5 @@ public class CourseResponseDTO {
     String description;
     String type;
     Boolean isRequired;
-    Boolean isBlocked;
     String linkImg;
 }

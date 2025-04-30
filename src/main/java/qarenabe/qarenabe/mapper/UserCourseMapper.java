@@ -12,7 +12,6 @@ public interface UserCourseMapper {
     @Mapping(source = "course.title", target = "title")
     @Mapping(source = "course.description", target = "description")
     @Mapping(source = "course.isRequired", target = "isRequired")
-    @Mapping(source = "course.isBlocked", target = "isBlocked")
     @Mapping(source = "course.linkImg", target = "linkImg")
     @Mapping(source = "course.type", target = "type")
     UserCourseResponseDTO toUserCourseResponse(UserCourse userCourse);

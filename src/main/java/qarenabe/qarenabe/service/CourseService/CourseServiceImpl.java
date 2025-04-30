@@ -30,8 +30,6 @@ public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
     CourseMapper courseMapper;
-    UserCourseRepository userCourseRepository;
-    UserCourseMapper userCourseMapper;
 
     @Override
     public List<CourseResponseDTO> getAllCourse() {

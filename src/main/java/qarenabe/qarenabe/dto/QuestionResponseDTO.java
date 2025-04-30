@@ -6,16 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE )
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonResponseDTO {
-      Long id;
-      String title;
-      String LessonLink;
-      Long courseId;
-      String courseName;
-      String linkImg;
-      String description;
+public class QuestionResponseDTO {
+    private Long id;
+    private String content;
+    private List<AnswerResponseDTO> answers;
 }

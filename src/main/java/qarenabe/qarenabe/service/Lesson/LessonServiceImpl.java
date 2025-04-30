@@ -42,10 +42,6 @@ public class LessonServiceImpl implements LessonService {
             lessonResponseDTO.setCourseId(lesson.getCourse().getId());
             lessonResponseDTO.setCourseName(lesson.getCourse().getTitle());
 
-            if (lesson.getLessonRequired() != null) {
-                lessonResponseDTO.setLessonRequiredId(lesson.getLessonRequired().getId());
-                lessonResponseDTO.setLessonRequiredTitle(lesson.getLessonRequired().getTitle());
-            }
             return lessonResponseDTO;
         }).collect(Collectors.toList());
     }
@@ -57,12 +53,6 @@ public class LessonServiceImpl implements LessonService {
 
         Lesson lesson = lessonMapper.toLesson(lessonRequestDTO);
         lesson.setCourse(course);
-        // Gán bài học yêu cầu nếu có
-        if (lessonRequestDTO.getLessonRequiredId() != null) {
-            Lesson requiredLesson = lessonRepository.findById(lessonRequestDTO.getLessonRequiredId())
-                    .orElseThrow(() -> new AppException(ErrorCodeEnum.LESSON_NOT_EXISTED));
-            lesson.setLessonRequired(requiredLesson);
-        }
         try {
             lessonRepository.save(lesson);
         } catch (DataIntegrityViolationException exception) {
@@ -81,31 +71,6 @@ public class LessonServiceImpl implements LessonService {
         if (lessonsToDelete.size() != ids.size()) {
             throw new AppException(ErrorCodeEnum.LESSON_NOT_EXISTED);
         }
-
-        Map<Long, Lesson> lessonMap = lessonsToDelete.stream()
-                .collect(Collectors.toMap(Lesson::getId, lesson -> lesson));
-
-        //less phụ thuộc
-        List<Lesson> dependentLessons = lessonRepository.findByLessonRequiredIdIn(ids);
-
-        for (Lesson dependent : dependentLessons) {
-
-            Lesson lessonRequiredToDelete = lessonMap.get(dependent.getLessonRequired().getId());
-
-            // Gán lại lessonRequired cho bài học phụ thuộc
-            if (lessonRequiredToDelete != null) {
-                dependent.setLessonRequired(lessonRequiredToDelete.getLessonRequired());
-
-                // Nếu không còn bài học yêu cầu ⇒ mở khóa
-                if (dependent.getLessonRequired() == null) {
-                    dependent.setIsBlocked(false);
-                }
-            }
-
-            lessonRepository.save(dependent);
-        }
-
-        // Xóa các bài học
         lessonRepository.deleteAll(lessonsToDelete);
 
         return SuccessCodeEnum.DELETE_SUCCESS.getMsg();

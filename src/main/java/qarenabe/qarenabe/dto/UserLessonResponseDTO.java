@@ -10,12 +10,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE )
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonResponseDTO {
+public class UserLessonResponseDTO {
       Long id;
       String title;
-      String LessonLink;
       Long courseId;
       String courseName;
       String linkImg;
       String description;
+      String LessonLink;
 }

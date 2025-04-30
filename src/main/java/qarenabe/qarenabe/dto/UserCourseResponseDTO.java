@@ -19,6 +19,6 @@ public class UserCourseResponseDTO {
     String linkImg;
     String type;
     String requiredCourse;
-    Boolean isComplete;
+    Boolean isCompleted;
     List<LessonResponseDTO> lessons;
 }

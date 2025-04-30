@@ -1,10 +1,9 @@
 package qarenabe.qarenabe.service.UserLesson;
 
-import qarenabe.qarenabe.dto.LessonResponseUserDTO;
+import qarenabe.qarenabe.dto.UserLessonResponseDTO;
 
 import java.util.List;
 
 public interface UserLessonService {
-    Object completeLessonAndUnlockNext(Long userId, Long lessonId);
-    List<LessonResponseUserDTO> getAllLessonsByUserAndCourse(Long userId, Long courseId);
+    List<UserLessonResponseDTO> getAllLessonsByUserAndCourse(Long userId, Long courseId);
 }
