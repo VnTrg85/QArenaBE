@@ -1,2 +1,4 @@
-package qarenabe.qarenabe.service;public class UserCourseService {
+package qarenabe.qarenabe.service.UserCourseService;
+
+public interface UserCourseService {
 }

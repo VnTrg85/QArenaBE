@@ -1,2 +1,7 @@
-package qarenabe.qarenabe.service.CertificateService;public class CertificateServiceImpl {
+package qarenabe.qarenabe.service.CertificateService;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CertificateServiceImpl {
 }

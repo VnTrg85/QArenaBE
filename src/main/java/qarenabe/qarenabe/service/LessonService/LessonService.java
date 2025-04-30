@@ -1,2 +1,4 @@
-package qarenabe.qarenabe.service.LessonService;public interface LessonService {
+package qarenabe.qarenabe.service.LessonService;
+
+public interface LessonService {
 }

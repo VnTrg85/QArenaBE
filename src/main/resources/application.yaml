@@ -2,14 +2,22 @@ server:
     port: 8080
     error:
         include-message: always
+    address: 0.0.0.0
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/qarena_db
-        username: root
-        password: root
+        url: jdbc:tcp://0.tcp.ap.ngrok.io:10527/qarena
+        username: myuser
+        password: qarenadb
     jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
         hibernate:
             ddl-auto: update
         show-sql: true
         open-in-view: true
+    autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+    security:
+        user:
+            name: ""
+            password: ""

@@ -1,22 +1,19 @@
 package qarenabe.qarenabe.service.AuthService;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.BadCredentialsException;
 import qarenabe.qarenabe.dto.AuthRequest;
 import qarenabe.qarenabe.dto.AuthResponse;
-import  qarenabe.qarenabe.entity.*;
-import org.springframework.security.authentication.BadCredentialsException;
-import  qarenabe.qarenabe.repository.UserRepository;
-import  qarenabe.qarenabe.service.Security.SecurityService;
+import qarenabe.qarenabe.entity.User;
+import qarenabe.qarenabe.repository.UserRepository;
+import qarenabe.qarenabe.service.Security.SecurityService;
+
 
 @Service
 public class AuthServiceImpl implements AuthService{
@@ -25,26 +22,17 @@ public class AuthServiceImpl implements AuthService{
     @Autowired
     private SecurityService securityService;
     @Override
-    public AuthResponse login(AuthRequest params, HttpServletResponse response) {
-        List<User> users = userRepository.findAll();
-        if(users != null) {
-            for (User user : users) {
-                if(user.getEmail().equals(params.getEmail())) {
-                    String decodePass = securityService.decode(user.getPassword());
+    public AuthResponse login(AuthRequest params) {
+        User user = userRepository.findByEmail(params.getEmail()).orElseThrow(() -> new BadCredentialsException("Email is not valid"));
 
-                    if(decodePass.equals(params.getPassword())) {
-                        // Generate a JWT token
-                        String jwtToken = securityService.generateToken(user.getEmail());
-                       return new AuthResponse(jwtToken);
-                    }
-                    else {
-                        throw new BadCredentialsException("Invalid email");
-                    }
-                }
-            }
-            throw new BadCredentialsException("Invalid password");
+        // Kiểm tra mật khẩu
+        if (securityService.decode(user.getPassword()).equals(params.getPassword())) {
+             // Tạo JWT token
+            String token = securityService.generateToken(user.getEmail());
+            return new AuthResponse(user.getUserRole().getName(),user.getEmail(),token);
+        }else {
+            throw new BadCredentialsException("Incorrect password");
         }
-        throw new BadCredentialsException("Account is not found");
     }
 
     @Override
@@ -55,6 +43,16 @@ public class AuthServiceImpl implements AuthService{
         // Add the cookie to the response
         response.addCookie(cookie);
         return "Logout successful";
+    }
+
+    @Override
+    public AuthResponse verify_token(AuthRequest request) {
+        Boolean isValidToken = securityService.verifyToken(request.getToken(), request.getEmail());
+        if(isValidToken) {
+            return new AuthResponse(null,null,"Token is valid");
+        }else {
+            throw new BadCredentialsException("Token is not valid");
+        }
     }
 
 }

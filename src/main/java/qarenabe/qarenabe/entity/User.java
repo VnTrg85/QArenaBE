@@ -28,6 +28,9 @@ public class User {
 
     @Getter
     @Setter
+    private String avatar;
+    @Getter
+    @Setter
     private String name;
 
     @Getter
@@ -43,11 +46,30 @@ public class User {
     @Setter
     private String password;
 
-
+    @Getter
+    @Setter
+    @Column(length = 2000000000 )
+    private String bio;
     @Getter
     @Setter
     private String address;
 
+    @Getter
+    @Setter
+    private String city;
+    
+    @Getter
+    @Setter
+    private Date date_of_birth;
+
+    @Getter
+    @Setter
+    private String payout_method;
+
+    @Getter
+    @Setter
+    private String payout_account_info;
+    
     @Getter
     @Setter
     private Date create_at;
@@ -56,5 +78,11 @@ public class User {
     @Getter
     @Setter
     private UserRole userRole;
- 
+
+
+    public User(Long id,String name,String avatar) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
 }

@@ -1,2 +1,4 @@
-package qarenabe.qarenabe.service.CertificateService;public interface CertificateService {
+package qarenabe.qarenabe.service.CertificateService;
+
+public interface CertificateService {
 }
