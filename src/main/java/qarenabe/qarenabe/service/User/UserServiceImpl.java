@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import qarenabe.qarenabe.dto.MemberResponseDTO;
 import qarenabe.qarenabe.entity.*;
 import qarenabe.qarenabe.enums.ErrorCodeEnum;
 import qarenabe.qarenabe.exception.AppException;

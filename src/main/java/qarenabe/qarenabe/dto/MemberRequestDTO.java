@@ -10,10 +10,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE )
-public class LessonRequestDTO {
-    Long courseId;
-    String title;
-    String lessonLink;
-    String linkImg;
-    String description;
+public class MemberRequestDTO {
+    Long roleId;
+    String email;
+    Long projectCount;
+    int offset;
+    int limit;
 }
+

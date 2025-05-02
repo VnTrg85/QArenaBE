@@ -25,7 +25,6 @@ public class Lesson extends BaseEntity {
 
     String description;
 
-
     String linkImg;
 
 }
