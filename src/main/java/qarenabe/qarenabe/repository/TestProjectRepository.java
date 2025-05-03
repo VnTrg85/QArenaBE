@@ -14,4 +14,5 @@ public interface TestProjectRepository extends JpaRepository<TestProject,Long>  
     List<TestProject> findByEndAtBefore(Date now);
 
     
+    List<TestProject> findByUser_Id(Long userId);
 }

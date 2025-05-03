@@ -36,7 +36,11 @@ public class TestProjectController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<TestprojectDTO>> getAllProjects() {
-        return ResponseEntity.ok(testProjectService.getAllProjects());
+        List<TestprojectDTO> projects = testProjectService.getAllProjects();
+        if (projects.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(projects);
+        }
+        return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/{id}")
@@ -60,10 +64,27 @@ public class TestProjectController {
        }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<TestprojectDTO> createProject(@RequestBody TestprojectDTO dto) {
-        return ResponseEntity.status(201).body(testProjectService.createProject(dto));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<TestprojectDTO>> getAllProjectsByUserId(@PathVariable Long userId) {
+        List<TestprojectDTO> projects = testProjectService.getAllProjectsByUserId(userId);
+        return ResponseEntity.ok(projects);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createProject(@RequestBody TestprojectDTO dto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            TestprojectDTO createdProject = testProjectService.createProject(dto);
+            response.put("status", "success");
+            response.put("data", createdProject);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+    
 
     @PutMapping("/{id}")
     public ResponseEntity<TestprojectDTO> updateProject(@PathVariable Long id, @RequestBody TestprojectDTO dto) {

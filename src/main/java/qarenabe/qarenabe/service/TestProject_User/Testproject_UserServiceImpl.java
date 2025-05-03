@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.TestProjectUserResponse;
 import qarenabe.qarenabe.dto.TestprojectDTO;
+import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.TestProject;
 import qarenabe.qarenabe.entity.TestProject_User;
 import qarenabe.qarenabe.entity.User;
@@ -88,6 +89,22 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             testProject_User.setStatus(status);
             testProject_UserRepository.save(testProject_User);
             return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+
+    @Override
+    public List<UserDTO> getUserInProject(Long projectId) {
+        try {
+            List<TestProject_User> testProject_Users = testProject_UserRepository.findAllByTestProjectId(projectId);
+            List<UserDTO> userDTOs = new ArrayList<>();
+            for (TestProject_User testProject_User : testProject_Users) {
+                userDTOs.add(new UserDTO(testProject_User.getUser().getId(), testProject_User.getUser().getName(), testProject_User.getUser().getAvatar(),testProject_User.getUser().getUserRole().getId()));
+            }
+            return userDTOs;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -42,9 +42,38 @@ public class UserDTO {
     @Setter
     private Long role;
 
-    public UserDTO(Long id,String name, String avatar)  {
+    @Getter
+    @Setter
+    private String payout_method;
+
+    @Getter
+    @Setter
+    private String payout_account_info;
+    public UserDTO(Long id, String avatar, String name, String email, String phone, String address, String city, Date dateOfBirth, Date createAt, Long role) {
         this.id = id;
         this.avatar = avatar;
         this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.city = city;
+        this.dateOfBirth = dateOfBirth;
+        this.createAt = createAt;
+        this.role = role;
+    }
+    public UserDTO(Long id,String name, String avatar) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
+    public UserDTO(Long id,String name, String avatar,Long roleId) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+        this.role = roleId;
+    }
+    public UserDTO(String payout_method, String payout_account_info) {
+        this.payout_method = payout_method;
+        this.payout_account_info = payout_account_info;
     }
 }

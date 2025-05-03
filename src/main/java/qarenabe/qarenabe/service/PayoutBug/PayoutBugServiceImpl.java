@@ -52,5 +52,10 @@ public class PayoutBugServiceImpl implements PayoutBugService{
             throw new RuntimeException(e.getMessage());
         }
     }
+    @Override
+    public Long getAmountForProjectAndBugType(Long testProjectId, Long bugTypeId) {
+        return payoutBugRepository.getAmountByProjectAndBugType(testProjectId, bugTypeId)
+                                  .orElse(0L);
+    }
     
 }

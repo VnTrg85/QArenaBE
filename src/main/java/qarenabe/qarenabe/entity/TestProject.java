@@ -43,14 +43,20 @@ public class TestProject {
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "outScope", length = 2000000000)
     private String outScope;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "goal", length = 2000000000)
     private String goal;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "additionalRequirement", length = 2000000000)
     private String additionalRequirement;
 
     @Getter
