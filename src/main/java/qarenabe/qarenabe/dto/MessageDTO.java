@@ -42,7 +42,5 @@ public class MessageDTO {
     @Setter
     @Nullable
     private UserDTO user;
-
-
     
 }

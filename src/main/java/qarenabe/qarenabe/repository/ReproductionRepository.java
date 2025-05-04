@@ -10,5 +10,7 @@ import qarenabe.qarenabe.entity.Reproduction;
 public interface ReproductionRepository extends JpaRepository<Reproduction,Long> {
 
     List<Reproduction> findAllByBugReportId(Long id);
+
+    List<Reproduction> findAllByUserId(Long userId);
     
 }

@@ -76,4 +76,33 @@ public class ReproductionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+    @PostMapping("/accept/{id}")
+    public ResponseEntity<?> acceptReproduction(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            ReproductionDTO res = reproductionService.acceptReproduction(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<?> rejectReproduction(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            ReproductionDTO res = reproductionService.rejectReproduction(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
 }

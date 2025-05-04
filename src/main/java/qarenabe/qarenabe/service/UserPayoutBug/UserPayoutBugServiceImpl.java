@@ -46,7 +46,7 @@ public class UserPayoutBugServiceImpl implements UserPayoutBugService {
             BugReport bugReport = bugReportRepository.findById(userPayoutBugDTO.getBugReport().getId()).orElseThrow(() -> new EntityNotFoundException("Bug report not found with ID"));
             userPayoutBugDTO.setBugReport(bugReport);
             UserPayoutBug saved =  userPayoutBugRepository.save(userPayoutBugDTO);
-            UserPayoutBugDTO res = new UserPayoutBugDTO(saved.getId(), saved.getDateCreated(),saved.getBugReport().getId());
+            UserPayoutBugDTO res = new UserPayoutBugDTO(saved.getId(), saved.getDateCreated(),saved.getBugReport().getId(),saved.getReproduction().getId());
             return res;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -75,25 +75,42 @@ public class UserPayoutBugServiceImpl implements UserPayoutBugService {
     }
 
     @Override
+    @Transactional
+    public Boolean deleteUserPayoutBugByReproduction(Long id) {
+        try {
+            int res = userPayoutBugRepository.deleteByReproductionId(id);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public List<MonthlyPayoutDTO> getAllPayoutsByUser(Long userId) {
         try {
             List<UserPayoutBug> listUserPayoutBugs = userPayoutBugRepository.findAll();
-            Map<YearMonth, Long> payoutByMonth = new HashMap<>();
+            Map<YearMonth, Float> payoutByMonth = new HashMap<>();
 
             for (UserPayoutBug userPayoutBug : listUserPayoutBugs) {
                 BugReport bugReport = userPayoutBug.getBugReport();
-                
-                if (bugReport.getUser().getId().equals(userId)) {
-                    Date dateCreated = userPayoutBug.getDateCreated();
-                    YearMonth yearMonth = YearMonth.from(dateCreated.toInstant().atZone(ZoneId.systemDefault()));
 
+                Date dateCreated = userPayoutBug.getDateCreated();
+                YearMonth yearMonth = YearMonth.from(dateCreated.toInstant().atZone(ZoneId.systemDefault()));
+                if (bugReport.getUser().getId().equals(userId)) {
                     Long amount = payoutBugService.getAmountForProjectAndBugType(
                         bugReport.getTestProject().getId(),
                         bugReport.getBugType().getId()
                     );
-
-                    payoutByMonth.put(yearMonth, payoutByMonth.getOrDefault(yearMonth, 0L) + amount);
+                    payoutByMonth.put(yearMonth, payoutByMonth.getOrDefault(yearMonth, 0F) + amount.floatValue());
                 }
+                if (userPayoutBug.getReproduction() != null && userPayoutBug.getReproduction().getUser().getId().equals(userId)) {
+                    Long amount = payoutBugService.getAmountForProjectAndBugType(
+                        bugReport.getTestProject().getId(),
+                        bugReport.getBugType().getId()
+                    );
+                    payoutByMonth.put(yearMonth, payoutByMonth.getOrDefault(yearMonth, 0F) +  amount.floatValue() * 0.10F);
+                }
+
             }
 
             // Chuyển YearMonth => String để JSON dễ đọc

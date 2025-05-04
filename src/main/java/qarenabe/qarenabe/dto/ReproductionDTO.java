@@ -34,4 +34,7 @@ public class ReproductionDTO {
     @Getter
     @Setter
     private Long userId;
+    @Getter
+    @Setter
+    private String status;
 }

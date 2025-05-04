@@ -2,7 +2,7 @@ package qarenabe.qarenabe.service.TestProject_User;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 import org.hibernate.action.internal.EntityAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +105,23 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
                 userDTOs.add(new UserDTO(testProject_User.getUser().getId(), testProject_User.getUser().getName(), testProject_User.getUser().getAvatar(),testProject_User.getUser().getUserRole().getId()));
             }
             return userDTOs;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<User> getTestLeaderInProject(Long projectId) {
+        try {
+            List<TestProject_User> testProject_Users = testProject_UserRepository.findAllByTestProjectId(projectId);
+            List<User> users = new ArrayList<User>();
+            for (TestProject_User testProject_User : testProject_Users) {
+                Long roleId = testProject_User.getUser().getUserRole().getId();
+                if (Objects.equals(roleId, 4L)) {
+                    users.add(testProject_User.getUser());
+                }
+            }
+            return users;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

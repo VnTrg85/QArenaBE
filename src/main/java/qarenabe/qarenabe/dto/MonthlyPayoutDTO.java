@@ -13,5 +13,5 @@ public class MonthlyPayoutDTO {
     private String date;
     @Getter
     @Setter
-    private Long totalAmount;
+    private Float totalAmount;
 }

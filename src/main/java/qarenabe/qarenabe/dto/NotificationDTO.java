@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.example.demo.enums.TypeNotification;
 
+import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.Setter;
 public class NotificationDTO{
     @Getter
     @Setter
+    @Nullable
     private Long id;
 
     @Getter

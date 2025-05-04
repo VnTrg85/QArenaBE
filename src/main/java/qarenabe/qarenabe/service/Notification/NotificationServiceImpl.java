@@ -66,5 +66,23 @@ public class NotificationServiceImpl implements NotificationService{
             throw new RuntimeException(e.getMessage());
         }
     }
+    @Override
+    public NotificationDTO createNotification(NotificationDTO notificationDTO) {
+        try {
+            User sender = userRepository.findById(notificationDTO.getSender().getId()).orElseThrow(() -> new EntityNotFoundException("User not foudn with ID"));
+            User receiver = userRepository.findById(notificationDTO.getReceiver().getId()).orElseThrow(() -> new EntityNotFoundException("User not foudn with ID"));
+            Notification noti = new Notification();
+            noti.setContent(notificationDTO.getContent());
+            noti.setIsRead(false);
+            noti.setLink_url(notificationDTO.getLink_url());
+            noti.setReceiver(receiver);
+            noti.setSender(sender);
+            noti.setType(notificationDTO.getType());
+            notificationRepository.save(noti);
+            return notificationDTO;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
     
 }

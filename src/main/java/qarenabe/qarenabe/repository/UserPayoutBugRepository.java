@@ -8,4 +8,5 @@ import qarenabe.qarenabe.entity.UserPayoutBug;
 public interface UserPayoutBugRepository extends JpaRepository<UserPayoutBug,Long> {
     UserPayoutBug findByBugReportId(Long id);
     int deleteByBugReportId(Long id);
+    int deleteByReproductionId(Long id);
 }

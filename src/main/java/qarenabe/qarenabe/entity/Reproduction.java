@@ -27,6 +27,10 @@ public class Reproduction {
     @Getter
     @Setter
     private String proofLink;
+
+    @Getter
+    @Setter
+    private String status;
     
     @Getter
     @Setter

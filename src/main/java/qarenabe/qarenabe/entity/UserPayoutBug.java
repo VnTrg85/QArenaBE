@@ -4,6 +4,7 @@ package qarenabe.qarenabe.entity;
 
 import java.util.Date;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,8 +26,16 @@ public class UserPayoutBug {
 
     @ManyToOne
     @JoinColumn(name = "bug_id")
+    @Nullable
     @Getter
     @Setter
     private BugReport bugReport;
+
+    @ManyToOne
+    @JoinColumn(name = "reproduction_id")
+    @Nullable
+    @Getter
+    @Setter
+    private Reproduction reproduction;
 
 }
