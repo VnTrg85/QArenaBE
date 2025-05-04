@@ -1,55 +1,88 @@
 package qarenabe.qarenabe.entity;
 
 import java.util.Date;
-import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import lombok.AllArgsConstructor;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class User {
     @Id
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter
-      String name;
+    private String avatar;
+    @Getter
+    @Setter
+    private String name;
 
     @Getter
     @Setter
     @Column(name = "email", unique = true)
-      String email;
+    private String email;
 
     @Getter
     @Setter
-      String phone;
+    private String phone;
 
     @Getter
     @Setter
-      String password;
-
-
-    @Getter
-    @Setter
-      String address;
+    private String password;
 
     @Getter
     @Setter
-      Date create_at;
+    @Column(length = 2000000000 )
+    private String bio;
+    @Getter
+    @Setter
+    private String address;
 
+    @Getter
+    @Setter
+    private String city;
+
+    @Getter
+    @Setter
+    private Date date_of_birth;
+
+    @Getter
+    @Setter
+    private String payout_method;
+
+    @Getter
+    @Setter
+    private String payout_account_info;
+
+    @Getter
+    @Setter
+    private Date create_at;
     @ManyToOne
     @JoinColumn(name = "roleId")
     @Getter
     @Setter
-      UserRole userRole;
+    private UserRole userRole;
 
-    @OneToMany(mappedBy = "user")
-      List<UserCourse> userCourses;
+
+    public User(Long id,String name,String avatar) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+    }
 }

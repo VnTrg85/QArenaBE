@@ -1,8 +1,10 @@
 package qarenabe.qarenabe.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,10 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.converter.StringArrayConverter;
 
 @Data
 @Entity
@@ -25,58 +29,74 @@ public class TestProject {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter
-      String projectName;
+    private String projectName;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "description", length = 2000000000)
-      String description;
+    private String description;
 
     @Getter
     @Setter
-      String outScope;
+    private String outScope;
 
     @Getter
     @Setter
-      String goal;
+    private String goal;
 
     @Getter
     @Setter
-      String additionalRequirement;
+    private String additionalRequirement;
 
     @Getter
     @Setter
-      String link;
+    private String link;
 
     @Getter
     @Setter
-      String[] platform;
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] platform;
 
     @Getter
     @Setter
-      Date create_at;
+    private Date create_at;
 
     @Getter
     @Setter
-      Date end_at;
+    @Column(name = "end_at")
+    private Date endAt;
 
     @Getter
     @Setter
-      String status;
+    private String status;
 
     @Getter
     @Setter
-      String[] language;
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] language;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-      User user;
+    private User user;
+
+
+    @OneToMany
+    @JoinColumn(name = "deviceId")
+    @Getter
+    @Setter
+    private List<Device> devices;
+
+    public TestProject(Long id) {
+        this.id = id;
+    }
 
 }

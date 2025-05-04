@@ -1,19 +1,18 @@
 package qarenabe.qarenabe.service.Security;
 
+import java.util.Base64;
+import java.util.Date;
+
+import org.springframework.stereotype.Service;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import qarenabe.qarenabe.dto.CustomUserDetails;
-
-import java.util.Base64;
-import java.util.Date;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
-      static final String SECRET_KEY = "3fSx8yA5T/2yqO6JGhF9UzD2hVtXz9F+X3l5Q9bF3Kc=";
+    private static final String SECRET_KEY = "3fSx8yA5T/2yqO6JGhF9UzD2hVtXz9F+X3l5Q9bF3Kc=";
 
     @Override
     public String encode(String text) {
@@ -60,11 +59,5 @@ public class SecurityServiceImpl implements SecurityService {
                             .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                             .compact();
         return jwtToken;
-    }
-    @Override
-    public Long getCurrentUserId() {
-        var context = SecurityContextHolder.getContext();
-        CustomUserDetails userDetails=(CustomUserDetails)context.getAuthentication().getPrincipal();
-        return userDetails.getId();
     }
 }
