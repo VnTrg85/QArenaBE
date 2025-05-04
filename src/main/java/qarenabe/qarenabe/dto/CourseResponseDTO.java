@@ -16,10 +16,7 @@ public class CourseResponseDTO {
     Long id;
     String title;
     String description;
-    Boolean isRequired;
-    Boolean isBlocked;
-    String linkImg;
     String type;
-    String DependenceCourse;
-    List<LessonResponseDTO> lessons;
+    Boolean isRequired;
+    String linkImg;
 }

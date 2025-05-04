@@ -25,7 +25,7 @@ public class Session {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter

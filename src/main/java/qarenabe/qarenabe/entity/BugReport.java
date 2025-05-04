@@ -26,32 +26,32 @@ import qarenabe.qarenabe.converter.StringArrayConverter;
 @NoArgsConstructor
 public class BugReport {
     @Id
-    @Getter
     @Setter
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter
-      String title;
+    private String title;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "url_test", length = 200)
-      String url_test;
+    private String url_test;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "actual_result", length = 2000)
-      String actual_result;
+    private String actual_result;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "expected_result", length = 2000)
-      String expected_result;
+    private String expected_result;
 
     @Getter
     @Setter
@@ -67,11 +67,11 @@ public class BugReport {
 
     @Getter
     @Setter
-      String status;
+    private String status;
 
     @Getter
     @Setter
-      Date reported_at;
+    private Date reported_at;
 
     @ManyToOne
     @JoinColumn(name = "browserId")
@@ -85,19 +85,19 @@ public class BugReport {
 
     @Getter
     @Setter
-      String reasonReject;
+    private String reasonReject;
 
     @ManyToOne
     @JoinColumn(name = "bug_type_Id")
     @Getter
     @Setter
-      BugType bugType;
+    private BugType bugType;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id")
     @Getter
     @Setter
-      TestProject testProject;
+    private TestProject testProject;
 
     @ManyToOne
     @JoinColumn(name = "feature_Id")
@@ -116,7 +116,8 @@ public class BugReport {
     @Getter
     @Setter
     private Session session;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "device_Id")
     @Getter
     @Setter

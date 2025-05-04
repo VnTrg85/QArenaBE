@@ -33,9 +33,6 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course")
     List<UserCourse> userCourses = new ArrayList<>();
 
-    @Column(name = "is_blocked", nullable = false)
-    Boolean isBlocked = true;
-
     @Column(name = "link_Img")
     String linkImg;
 

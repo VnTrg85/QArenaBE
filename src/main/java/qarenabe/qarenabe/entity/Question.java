@@ -3,6 +3,9 @@ package qarenabe.qarenabe.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -14,11 +17,12 @@ public class Question extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-      Course course;
+    private Course course;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-      String content;
+    private String content;
 
-    @Column(name = "is_true", columnDefinition = "BOOLEAN DEFAULT FALSE")
-      Boolean isTrue = false;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers = new ArrayList<>();
+
 }

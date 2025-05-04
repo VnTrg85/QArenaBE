@@ -3,7 +3,9 @@ package qarenabe.qarenabe.service.BugReport;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.BugReportDTO;
 import qarenabe.qarenabe.dto.BugReportDTOSecond;
+import qarenabe.qarenabe.dto.BugReportSumary;
 import qarenabe.qarenabe.entity.Browser;
 import qarenabe.qarenabe.entity.BugReport;
 import qarenabe.qarenabe.entity.BugType;
@@ -181,5 +185,20 @@ public class BugReportServiceImpl implements BugReportService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+    @Override
+    public List<BugReportSumary> getBugReportsSumaryByUser(Long userId) {
+        List<BugReport> reports = bugReportRepository.findByUserId(userId);
+
+        // Gom nhóm theo ngày
+        Map<String, Long> countsByDate = reports.stream()
+                .filter(report -> report.getReported_at() != null)
+                .collect(Collectors.groupingBy(
+                    report -> new SimpleDateFormat("yyyy-MM-dd").format(report.getReported_at()),
+                    Collectors.counting()
+                ));
+        return countsByDate.entrySet().stream()
+                .map(e -> new BugReportSumary(e.getKey(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 }

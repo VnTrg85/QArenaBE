@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import qarenabe.qarenabe.dto.AuthRequest;
 import qarenabe.qarenabe.dto.TestProjectUserResponse;
+import qarenabe.qarenabe.dto.TestprojectDTO;
 import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.User;
 import qarenabe.qarenabe.service.User.UserService;
@@ -83,8 +84,33 @@ public class UserController {
     
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(user));
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        HashMap<String,Object> response = new HashMap<>();
+       try {
+            UserDTO res = userService.updateUser(user);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+       } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response );
+       }
+    }
+
+    @PutMapping("/update/avatar")
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
+        HashMap<String,Object> response = new HashMap<>();
+        try {
+             userService.updateAvatar(user);;
+             response.put("status", "success");
+             response.put("data", "Update success");
+             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+             response.put("status", "error");
+             response.put("data", e.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response );
+        }
     }
     
 

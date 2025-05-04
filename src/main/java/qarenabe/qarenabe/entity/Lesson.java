@@ -1,5 +1,6 @@
 package qarenabe.qarenabe.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,21 +15,16 @@ public class Lesson extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-      Course course;
+    Course course;
 
     @Column(nullable = false)
-      String title;
+    String title;
 
     @Column(nullable = false)
-      String link;
+    String LessonLink;
 
-    @ManyToOne
-    @JoinColumn(name = "previous_lesson_id")
-    Lesson previousLesson;
+    String description;
 
-    @Column(name = "is_completed", columnDefinition = "BOOLEAN DEFAULT FALSE")
-      Boolean isCompleted = false;
+    String linkImg;
 
-    @Column(name = "is_blocked", columnDefinition = "BOOLEAN DEFAULT TRUE")
-      Boolean isBlocked = true;
 }

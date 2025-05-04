@@ -9,5 +9,7 @@ import qarenabe.qarenabe.entity.BugReport;
 @Repository
 public interface BugReportRepository extends JpaRepository<BugReport,Long> {
     List<BugReport> findAllByTestProjectId(Long testProjectId);
+
+    List<BugReport> findByUserId(Long userId);
 }
 

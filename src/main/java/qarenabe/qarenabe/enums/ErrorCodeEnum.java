@@ -26,6 +26,9 @@ public enum ErrorCodeEnum {
     LESSON_EXISTED(1012, "Lesson Existed", HttpStatus.BAD_REQUEST),
     LESSON_NOT_EXISTED(1013, "Lesson Not Existed", HttpStatus.BAD_REQUEST),
     INVALID_LESSON_ID(1014, "Invalid Lesson ID ", HttpStatus.BAD_REQUEST),
+    QUESTION_EXISTED(1013, "Question Existed", HttpStatus.BAD_REQUEST),
+    QUESTION_NOT_EXISTED(1013, "Question Not Existed", HttpStatus.BAD_REQUEST),
+
     ;
 
     ErrorCodeEnum(int code, String message, HttpStatus status) {

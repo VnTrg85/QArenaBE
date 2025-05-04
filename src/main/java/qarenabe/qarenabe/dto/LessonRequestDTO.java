@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 public class LessonRequestDTO {
     Long courseId;
     String title;
-    String link;
-    boolean isBlocked;
+    String lessonLink;
+    String linkImg;
+    String description;
 }

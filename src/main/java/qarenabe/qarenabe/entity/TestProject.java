@@ -29,33 +29,33 @@ public class TestProject {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter
-      String projectName;
+    private String projectName;
 
     @Getter
     @Setter
     @Lob
     @Column(name = "description", length = 2000000000)
-      String description;
+    private String description;
 
     @Getter
     @Setter
-      String outScope;
+    private String outScope;
 
     @Getter
     @Setter
-      String goal;
+    private String goal;
 
     @Getter
     @Setter
-      String additionalRequirement;
+    private String additionalRequirement;
 
     @Getter
     @Setter
-      String link;
+    private String link;
 
     @Getter
     @Setter
@@ -65,15 +65,16 @@ public class TestProject {
 
     @Getter
     @Setter
-      Date create_at;
+    private Date create_at;
 
     @Getter
     @Setter
-      Date end_at;
+    @Column(name = "end_at")
+    private Date endAt;
 
     @Getter
     @Setter
-      String status;
+    private String status;
 
     @Getter
     @Setter
@@ -85,7 +86,7 @@ public class TestProject {
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-      User user;
+    private User user;
 
 
     @OneToMany

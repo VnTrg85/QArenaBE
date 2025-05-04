@@ -2,6 +2,7 @@ package qarenabe.qarenabe.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 
 
@@ -11,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "answers")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Answer extends BaseEntity {
 
     @ManyToOne
@@ -22,6 +24,4 @@ public class Answer extends BaseEntity {
 
     @Column(name = "is_correct", columnDefinition = "BOOLEAN DEFAULT FALSE")
       Boolean isCorrect = false;
-
-
 }

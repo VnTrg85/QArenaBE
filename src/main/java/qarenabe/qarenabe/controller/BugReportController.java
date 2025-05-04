@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import qarenabe.qarenabe.dto.BugReportDTO;
 import qarenabe.qarenabe.dto.BugReportDTOSecond;
+import qarenabe.qarenabe.dto.BugReportSumary;
 import qarenabe.qarenabe.entity.BugReport;
 import qarenabe.qarenabe.entity.BugType;
 import qarenabe.qarenabe.service.BugReport.BugReportService;
@@ -110,5 +111,20 @@ public class BugReportController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    
+
+    @GetMapping("/getSumary/{id}")
+    public ResponseEntity<?> getBugReportSumary(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+         try {
+            List<BugReportSumary> res = bugReportService.getBugReportsSumaryByUser(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        
+    }
 }

@@ -14,8 +14,7 @@ public class CourseRequestDTO {
     String title;
     String description;
     @JsonProperty("isRequired")
-    boolean isRequired ;
-    boolean isBlocked ;
+    Boolean isRequired ;
     String type;
     String linkImg;
     @JsonProperty("requiredCourseId")

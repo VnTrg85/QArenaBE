@@ -13,7 +13,9 @@ import lombok.experimental.FieldDefaults;
 public class LessonResponseDTO {
       Long id;
       String title;
-      String link;
+      String LessonLink;
       Long courseId;
       String courseName;
+      String linkImg;
+      String description;
 }

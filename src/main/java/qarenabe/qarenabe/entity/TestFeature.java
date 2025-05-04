@@ -23,19 +23,19 @@ public class TestFeature {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-      Long id;
+    private Long id;
 
     @Getter
     @Setter
-      String name;
+    private String name;
 
     @Getter
     @Setter
-      String input;
+    private String input;
 
     @Getter
     @Setter
-      String output;
+    private String output;
 
     @Setter
     @Getter

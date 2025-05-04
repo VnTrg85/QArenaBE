@@ -6,7 +6,7 @@ services:
             - "MYSQL_DATABASE=qarena"
             - "MYSQL_PASSWORD=qarenadb"
             - "MYSQL_ROOT_PASSWORD=verysecret"
-            - "MYSQL_USER=qarena"
+            - "MYSQL_USER=myuser"
         ports:
             - "3306:3306"
         volumes:

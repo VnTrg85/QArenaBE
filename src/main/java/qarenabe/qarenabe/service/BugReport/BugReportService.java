@@ -4,6 +4,7 @@ import java.util.List;
 
 import qarenabe.qarenabe.dto.BugReportDTO;
 import qarenabe.qarenabe.dto.BugReportDTOSecond;
+import qarenabe.qarenabe.dto.BugReportSumary;
 import qarenabe.qarenabe.entity.BugReport;
 
 import java.io.ByteArrayInputStream;
@@ -20,4 +21,5 @@ public interface BugReportService {
     public BugReport createBugReport(BugReport bugReport);
     public List<BugReportDTOSecond> getListBugReportByProject(Long testProjectId);
     public BugReport getBugReportDetail(Long id);
+    public List<BugReportSumary> getBugReportsSumaryByUser(Long userId);
 }

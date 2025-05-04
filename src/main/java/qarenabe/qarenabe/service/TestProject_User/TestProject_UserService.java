@@ -8,4 +8,5 @@ import qarenabe.qarenabe.entity.TestProject_User;
 public interface TestProject_UserService {
         public List<TestProjectUserResponse> getProjectByUserId(Long userId);
         public TestProjectUserResponse createTestProject(TestProject_User entity);
+        public Boolean updateStatusProjectUser(Long testProjectId, String status);
 }

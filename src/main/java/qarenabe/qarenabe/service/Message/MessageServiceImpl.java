@@ -43,13 +43,16 @@ public class MessageServiceImpl implements MessageService{
     public MessageDTO saveAndBroadcastBug(MessageDTO messageDto) {
         User user  = userRepository.findById(messageDto.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
         BugReport bugReport = bugReportRepository.findById(messageDto.getBugReportId()).orElseThrow(() -> new EntityNotFoundException("Bug report not found with ID"));
+        TestProject testProject = testProjectRepository.findById(messageDto.getTestProjectId()).orElseThrow(() -> new EntityNotFoundException("Test project not found with ID"));
         Message message = new Message();
         message.setContent(messageDto.getContent());
         message.setTime_created(messageDto.getTime_created());
         message.setBugReport(bugReport);
         message.setUser(user);
+        message.setTestProject(testProject);
         Message saved = messageRepository.save(message);
         Long bugId = saved.getBugReport().getId();
+        Long testProjectId = saved.getTestProject().getId();
         UserDTO sender =new UserDTO(saved.getUser().getId(),saved.getUser().getName(), saved.getUser().getAvatar());
         MessageDTO mes = new MessageDTO(saved.getId(),saved.getContent(),saved.getTime_created(),null,saved.getBugReport().getId(),sender);
         
@@ -59,11 +62,12 @@ public class MessageServiceImpl implements MessageService{
         Notification noti = new Notification();
         noti.setType(TypeNotification.BUG_REPORT);
         noti.setContent("You have a new comment on bug report");
-        noti.setLink_id(bugId);
+        noti.setLink_url(testProjectId+ "/" + bugId  );
+        noti.setIsRead(false);
         noti.setSender(saved.getUser());
         noti.setReceiver(saved.getBugReport().getUser());
         Notification notiSaved =  notificationRepository.save(noti);
-        NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_id(),sender,owner);
+        NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,owner);
         // Gửi notification cho chủ bug nếu khác người gửi
         if (owner != null && !owner.getId().equals(message.getUser().getId())) {
             messagingTemplate.convertAndSend(
@@ -101,7 +105,7 @@ public class MessageServiceImpl implements MessageService{
         Message saved = messageRepository.save(message);
         Long projectId = saved.getTestProject().getId();
         UserDTO owner =new UserDTO(saved.getUser().getId(),saved.getUser().getName(), saved.getUser().getAvatar());
-        MessageDTO mes = new MessageDTO(saved.getId(),saved.getContent(),saved.getTime_created(),saved.getBugReport().getId(),null,owner);
+        MessageDTO mes = new MessageDTO(saved.getId(),saved.getContent(),saved.getTime_created(),null,null,owner);
         // Gửi tới room của bug report
         messagingTemplate.convertAndSend("/topic/project/" + projectId, mes);
         return mes;
@@ -114,7 +118,7 @@ public class MessageServiceImpl implements MessageService{
             List<MessageDTO> listMessRes = new ArrayList<>();
             for (Message message : listMess) {
                 UserDTO user = new UserDTO(message.getUser().getId(), message.getUser().getName(), message.getUser().getAvatar());
-                MessageDTO messEntity = new MessageDTO(message.getId(), message.getContent(), message.getTime_created(), message.getTestProject().getId(), message.getBugReport().getId(),user);
+                MessageDTO messEntity = new MessageDTO(message.getId(), message.getContent(), message.getTime_created(), message.getTestProject().getId(),null,user);
                 listMessRes.add(messEntity);
             }
             return listMessRes;

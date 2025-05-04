@@ -3,7 +3,6 @@ package qarenabe.qarenabe.service.TestProject_User;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
 
 import org.hibernate.action.internal.EntityAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             
             for (TestProject_User item : lists) {
                 TestProject selectedTest = item.getTestProject();
-                TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getId(),selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEnd_at(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
+                TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getId(),selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEndAt(),selectedTest.getLink(),selectedTest.getOutScope(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
                 TestProjectUserResponse val = new TestProjectUserResponse(item.getId(), item.getStatus(), secondDTO);
                 resLists.add(val);
             }
@@ -69,7 +68,7 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             entity.setTestProject(testProject);
             TestProject_User res =  testProject_UserRepository.save(entity);
             TestProject selectedTest = res.getTestProject();
-            TestprojectDTO secondDTO = new TestprojectDTO(null, selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEnd_at(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
+            TestprojectDTO secondDTO = new TestprojectDTO(null, selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEndAt(),selectedTest.getLink(),selectedTest.getOutScope(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
             TestProjectUserResponse val = new TestProjectUserResponse(res.getId(), res.getStatus(), secondDTO);
             return val;
         }
@@ -77,6 +76,20 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             throw new RuntimeException(e.getMessage(), e);
         } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
+        }
+    }
+
+
+
+    @Override
+    public Boolean updateStatusProjectUser(Long testProjectId, String status) {
+        try {
+            TestProject_User testProject_User = testProject_UserRepository.findById(testProjectId).orElseThrow(() -> new EntityNotFoundException("Project not found with ID"));
+            testProject_User.setStatus(status);
+            testProject_UserRepository.save(testProject_User);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

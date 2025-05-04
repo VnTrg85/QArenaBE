@@ -1,20 +1,23 @@
 package qarenabe.qarenabe.service.TestProject;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import qarenabe.qarenabe.dto.TestprojectDTO;
 import qarenabe.qarenabe.entity.TestProject;
+import qarenabe.qarenabe.entity.TestProject_User;
 import qarenabe.qarenabe.entity.User;
 import qarenabe.qarenabe.repository.TestProjectRepository;
+import qarenabe.qarenabe.repository.TestProject_UserRepository;
 import qarenabe.qarenabe.repository.UserRepository;
 import qarenabe.qarenabe.service.PayoutBug.PayoutBugService;
 import qarenabe.qarenabe.service.TestFeature.TestFeatureService;
@@ -26,7 +29,8 @@ public class TestProjectServiceImpl implements TestProjectService {
     private TestProjectRepository testProjectRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private TestProject_UserRepository testProject_UserRepository;
     @Autowired
     private TestFeatureService testFeatureService;
     @Autowired PayoutBugService payoutBugService;
@@ -55,7 +59,7 @@ public class TestProjectServiceImpl implements TestProjectService {
             project.setLink(dto.getLink());
             project.setPlatform(dto.getPlatform());
             project.setCreate_at(dto.getCreate_At());
-            project.setEnd_at(dto.getEnd_At());
+            project.setEndAt(dto.getEnd_At());
             project.setStatus(dto.getStatus());
             project.setLanguage(dto.getLanguage());
             return convertToDTO(testProjectRepository.save(project));
@@ -71,7 +75,7 @@ public class TestProjectServiceImpl implements TestProjectService {
         return new TestprojectDTO(
             project.getProjectName(), project.getDescription(), project.getOutScope(),
             project.getGoal(), project.getAdditionalRequirement(), project.getLink(),
-            project.getPlatform(), project.getCreate_at(), project.getEnd_at(),
+            project.getPlatform(), project.getCreate_at(), project.getEndAt(),
             project.getStatus(), project.getLanguage(), project.getUser().getId()
         );
     }
@@ -89,10 +93,25 @@ public class TestProjectServiceImpl implements TestProjectService {
     public TestprojectDTO getProjectDetailById(Long id) {
        try {
         TestProject testproject = testProjectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Porject not found with ID"));
-        TestprojectDTO secondDTO = new TestprojectDTO(testproject.getId(),testproject.getProjectName(),testproject.getDescription(),testproject.getGoal(),testproject.getPlatform(),testproject.getCreate_at(),testproject.getEnd_at(),testproject.getStatus(),testproject.getLanguage(),testFeatureService.getDetailFeaturesByTestProject(testproject.getId()),payoutBugService.getPayoutBugByProject(testproject.getId()));
+        TestprojectDTO secondDTO = new TestprojectDTO(testproject.getId(),testproject.getProjectName(),testproject.getDescription(),testproject.getGoal(),testproject.getPlatform(),testproject.getCreate_at(),testproject.getEndAt(),testproject.getLink(),testproject.getOutScope(),testproject.getStatus(),testproject.getLanguage(),testFeatureService.getDetailFeaturesByTestProject(testproject.getId()),payoutBugService.getPayoutBugByProject(testproject.getId()));
         return secondDTO;
        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
        }
+    }
+
+    @Scheduled(fixedRate = 60000) // chạy mỗi 60 giây
+    public void updateTestProjectUsersStatus() {
+        Date now = new Date();
+        List<TestProject> endedProjects = testProjectRepository.findByEndAtBefore(now);
+        for (TestProject project : endedProjects) {
+            List<TestProject_User> tpUsers = testProject_UserRepository.findAllByTestProjectId(project.getId());
+            for (TestProject_User tpUser : tpUsers) {
+                if (!"Done".equalsIgnoreCase(tpUser.getStatus())) {
+                    tpUser.setStatus("Done");
+                    testProject_UserRepository.save(tpUser);
+                }
+            }
+        }
     }
 }
