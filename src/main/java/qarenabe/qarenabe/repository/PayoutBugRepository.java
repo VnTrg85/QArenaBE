@@ -10,5 +10,6 @@ import qarenabe.qarenabe.entity.PayoutBug;
 public interface PayoutBugRepository extends JpaRepository<PayoutBug,Long> {
 
     List<PayoutBug> findAllByTestProjectId(Long testProjectId);
+
     
 }
