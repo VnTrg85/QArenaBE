@@ -14,5 +14,5 @@ public interface UserPayoutBugService {
     public Boolean deleteUserPayoutBugByBugReport(Long id);
     public Boolean deleteUserPayoutBugByReproduction(Long id);
     public List<MonthlyPayoutDTO> getAllPayoutsByUser(Long userId);
-    public Long getAllPayoutByProject(Long projectId);
+    public Long getAllPayoutByProject(Long projectId, Long userId);
 }

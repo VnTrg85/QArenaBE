@@ -12,15 +12,22 @@ import lombok.*;
 @Table(name = "certificates")
 public class Certificate extends BaseEntity {
 
-
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+      User user;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+      Course course;
+
+    @Column(nullable = false)
+      String titleCertificate;
+
+    @Column(name = "image_path")
+      String imagePath; // Lưu đường dẫn ảnh chứng chỉ
+
+    @Column(columnDefinition = "TEXT")
+      String description; // Mô tả chứng chỉ
 
 
 }

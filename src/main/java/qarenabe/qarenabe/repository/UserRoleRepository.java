@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 import qarenabe.qarenabe.entity.UserRole;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole,Long> {
-    
 }

@@ -108,7 +108,7 @@ public class UserPayoutBugServiceImpl implements UserPayoutBugService {
                         bugReport.getTestProject().getId(),
                         bugReport.getBugType().getId()
                     );
-                    payoutByMonth.put(yearMonth, payoutByMonth.getOrDefault(yearMonth, 0F) +  amount.floatValue() * 0.10F);
+                    payoutByMonth.put(yearMonth, payoutByMonth.getOrDefault(yearMonth, 0F) +  amount.floatValue() * 0.05F);
                 }
 
             }
@@ -124,20 +124,23 @@ public class UserPayoutBugServiceImpl implements UserPayoutBugService {
         }
     }
 
+    
+
     @Override
-    public Long getAllPayoutByProject(Long projectId) { 
+    public Long getAllPayoutByProject(Long projectId, Long userId) { 
         try {
             List<UserPayoutBug> listUserPayoutBugs = userPayoutBugRepository.findAll();
             Long totalNumber = (long) 0;
             for (UserPayoutBug userPayoutBug : listUserPayoutBugs) {
                 BugReport bugReport = userPayoutBug.getBugReport();
-
-                if (bugReport.getId().equals(projectId)) {
-                    Long amount = payoutBugService.getAmountForProjectAndBugType(
-                        bugReport.getTestProject().getId(),
-                        bugReport.getBugType().getId()
-                    );
-                    totalNumber += amount;
+                if(bugReport.getUser().getId().equals(userId) && bugReport.getStatus().equals("accepted")) {
+                    if (bugReport.getTestProject().getId().equals(projectId)) {
+                        Long amount = payoutBugService.getAmountForProjectAndBugType(
+                            bugReport.getTestProject().getId(),
+                            bugReport.getBugType().getId()
+                        );
+                        totalNumber += amount;
+                    }
                 }
             }
             return totalNumber;
@@ -145,6 +148,7 @@ public class UserPayoutBugServiceImpl implements UserPayoutBugService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 
     
 }

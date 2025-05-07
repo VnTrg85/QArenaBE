@@ -57,7 +57,7 @@ public class User {
     @Getter
     @Setter
     private String city;
-    
+
     @Getter
     @Setter
     private Date date_of_birth;
@@ -69,7 +69,7 @@ public class User {
     @Getter
     @Setter
     private String payout_account_info;
-    
+
     @Getter
     @Setter
     private Date create_at;

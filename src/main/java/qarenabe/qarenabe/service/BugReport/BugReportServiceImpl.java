@@ -271,4 +271,22 @@ public class BugReportServiceImpl implements BugReportService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public List<BugReportDTOSecond> getListBugReportAcceptByProject(Long testProjectId) {
+        try {
+            List<BugReport> listReport = bugReportRepository.findAllByTestProjectId(testProjectId);
+            List<BugReportDTOSecond> listRes = new ArrayList<>();
+            for (BugReport bugReport : listReport) {
+                if(bugReport.getStatus().equals("accepted")) {
+                    UserDTO user = new UserDTO(bugReport.getUser().getId(), bugReport.getUser().getName(), bugReport.getUser().getAvatar());
+                    BugReportDTOSecond resEntity = new BugReportDTOSecond(bugReport.getId(), bugReport.getTitle(), bugReport.getStatus(), bugReport.getReported_at(), bugReport.getBugType().getIcon_link(), bugReport.getBugType().getName(),user,bugReport.getTestFeature().getName());
+                    listRes.add(resEntity);
+                }
+            }
+            return listRes;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

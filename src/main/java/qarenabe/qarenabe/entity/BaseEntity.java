@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+      LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+      LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {

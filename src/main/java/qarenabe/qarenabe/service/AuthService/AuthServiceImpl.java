@@ -18,9 +18,9 @@ import qarenabe.qarenabe.service.Security.SecurityService;
 @Service
 public class AuthServiceImpl implements AuthService{
     @Autowired 
-    private UserRepository userRepository;
+      UserRepository userRepository;
     @Autowired
-    private SecurityService securityService;
+      SecurityService securityService;
     @Override
     public AuthResponse login(AuthRequest params) {
         User user = userRepository.findByEmail(params.getEmail()).orElseThrow(() -> new BadCredentialsException("Email is not valid"));

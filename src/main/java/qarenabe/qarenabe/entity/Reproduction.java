@@ -22,11 +22,11 @@ public class Reproduction {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String proofLink;
+      String proofLink;
 
     @Getter
     @Setter

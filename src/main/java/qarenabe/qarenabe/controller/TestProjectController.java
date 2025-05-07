@@ -86,7 +86,7 @@ public class TestProjectController {
     }
     
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<TestprojectDTO> updateProject(@PathVariable Long id, @RequestBody TestprojectDTO dto) {
         return testProjectService.updateProject(id, dto)
                 .map(ResponseEntity::ok)
@@ -97,5 +97,49 @@ public class TestProjectController {
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
         testProjectService.deleteProject(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/request/{id}")
+    public ResponseEntity<?> requestTest(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Boolean requestTest = testProjectService.requestAcceptTestProject(id);
+            response.put("status", "success");
+            response.put("data", requestTest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @PostMapping("/accept/{id}")
+    public ResponseEntity<?> acceptTestproject(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Boolean requestTest = testProjectService.acceptProject(id);
+            response.put("status", "success");
+            response.put("data", requestTest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<?> rejectTestproject(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Boolean requestTest = testProjectService.rejectProject(id);
+            response.put("status", "success");
+            response.put("data", requestTest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 }

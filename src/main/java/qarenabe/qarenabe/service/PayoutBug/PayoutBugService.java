@@ -9,4 +9,6 @@ public interface PayoutBugService {
     public List<PayoutBugDTO> getPayoutBugByProject(Long testProjectId);
     public PayoutBugDTO createPayoutBug(PayoutBug payoutBug);
     public Long getAmountForProjectAndBugType(Long testProjectId, Long bugTypeId);
+    public Boolean deletePayoutBug(Long id);
+
 }

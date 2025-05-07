@@ -88,6 +88,14 @@ public class TestProject {
     @Column(columnDefinition = "TEXT")
     private String[] language;
 
+
+    @Getter
+    @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] devices;
+
+
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
@@ -95,11 +103,6 @@ public class TestProject {
     private User user;
 
 
-    @OneToMany
-    @JoinColumn(name = "deviceId")
-    @Getter
-    @Setter
-    private List<Device> devices;
 
     public TestProject(Long id) {
         this.id = id;

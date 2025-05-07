@@ -22,14 +22,14 @@ public class BugType {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String name;
+      String name;
 
     @Getter
     @Setter
-    private String icon_link;
+      String icon_link;
 
 }

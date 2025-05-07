@@ -39,11 +39,11 @@ public class UserPayoutBugController {
         }
     }
 
-    @GetMapping("/project/{projectId}")
-    public ResponseEntity<?> getPayoutByProject(@PathVariable Long projectId) {
+    @GetMapping("/project/{projectId}/{userId}")
+    public ResponseEntity<?> getPayoutByProject(@PathVariable Long projectId, @PathVariable Long userId) {
         Map<String, Object> response = new HashMap<>();
          try {
-            Long res = userPayoutBugService.getAllPayoutByProject(projectId);
+            Long res = userPayoutBugService.getAllPayoutByProject(projectId,userId);
             response.put("status", "success");
             response.put("data", res);
             return ResponseEntity.ok(response);

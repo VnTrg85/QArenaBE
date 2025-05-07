@@ -79,6 +79,7 @@ public class TestProjectServiceImpl implements TestProjectService {
             project.setEndAt(dto.getEnd_At());
             project.setStatus(dto.getStatus());
             project.setLanguage(dto.getLanguage());
+            project.setDevices(dto.getDevices());
             return convertToDTO(testProjectRepository.save(project));
         });
     }
@@ -102,7 +103,7 @@ public class TestProjectServiceImpl implements TestProjectService {
             dto.getId(), dto.getProjectName(), dto.getDescription(), dto.getOutScope(),
             dto.getGoal(), dto.getAdditionalRequirement(), dto.getLink(),
             dto.getPlatform(), dto.getCreate_At(), dto.getEnd_At(),
-            dto.getStatus(), dto.getLanguage(), user,null
+            dto.getStatus(), dto.getLanguage(), dto.getDevices(),user
         );
     }
 
@@ -110,7 +111,7 @@ public class TestProjectServiceImpl implements TestProjectService {
     public TestprojectDTO getProjectDetailById(Long id) {
        try {
         TestProject testproject = testProjectRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Project not found with ID"));
-        TestprojectDTO secondDTO = new TestprojectDTO(testproject.getId(),testproject.getProjectName(),testproject.getDescription(),testproject.getGoal(),testproject.getPlatform(),testproject.getCreate_at(),testproject.getEndAt(),testproject.getLink(),testproject.getOutScope(),testproject.getStatus(),testproject.getLanguage(),testFeatureService.getDetailFeaturesByTestProject(testproject.getId()),payoutBugService.getPayoutBugByProject(testproject.getId()));
+        TestprojectDTO secondDTO = new TestprojectDTO(testproject.getId(),testproject.getProjectName(),testproject.getDescription(),testproject.getAdditionalRequirement(),testproject.getGoal(),testproject.getPlatform(),testproject.getCreate_at(),testproject.getEndAt(),testproject.getLink(),testproject.getOutScope(),testproject.getStatus(),testproject.getLanguage(),testproject.getDevices(),testFeatureService.getDetailFeaturesByTestProject(testproject.getId()),payoutBugService.getPayoutBugByProject(testproject.getId()));
         return secondDTO;
        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

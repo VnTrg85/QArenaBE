@@ -51,6 +51,21 @@ public class TestFeatureController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+    @GetMapping("/getDetail/project/{id}")
+    public ResponseEntity<?> getDetailTestFeatureByProjectId(@PathVariable Long id) {
+        try {
+            List<TestFeatureDTO> listRes = testFeatureService.getDetailFeaturesByTestProject(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("data", listRes);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getTestFeatureById(@PathVariable Long id) {
         try {
@@ -70,6 +85,22 @@ public class TestFeatureController {
     public ResponseEntity<?> createTestFeature(@RequestBody TestFeature testFeature) {
         try {
             TestFeatureDTO res = testFeatureService.createTestFeature(testFeature);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteTestFeature(@PathVariable Long id) {
+        try {
+            Boolean res = testFeatureService.deleteTestFeature(id);
             Map<String, Object> response = new HashMap<>();
             response.put("status", "success");
             response.put("data", res);

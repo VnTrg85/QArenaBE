@@ -25,11 +25,11 @@ public class Message {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+      Long id;
 
     @Getter
     @Setter
-    private String content;
+      String content;
 
     @Getter
     @Setter
@@ -40,7 +40,7 @@ public class Message {
     @JoinColumn(name = "bug_report_Id", nullable = true)
     @Getter
     @Setter
-    private BugReport bugReport;
+      BugReport bugReport;
 
     @ManyToOne
     @JoinColumn(name = "test_project_Id", nullable = true)
@@ -52,5 +52,5 @@ public class Message {
     @JoinColumn(name = "userId", nullable = false)
     @Getter
     @Setter
-    private User user;
+      User user;
 }

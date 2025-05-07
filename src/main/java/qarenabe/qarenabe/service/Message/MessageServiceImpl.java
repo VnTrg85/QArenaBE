@@ -61,34 +61,39 @@ public class MessageServiceImpl implements MessageService{
         
         // Gửi tới room của bug report
         messagingTemplate.convertAndSend("/topic/bug-report/" + bugId, mes);
-        UserDTO owner = new UserDTO(saved.getBugReport().getUser().getId(), saved.getBugReport().getUser().getName(), saved.getBugReport().getUser().getEmail());
-        Notification noti = new Notification();
-        noti.setType(TypeNotification.BUG_REPORT);
-        noti.setContent("You have a new comment on bug report");
-        noti.setLink_url(testProjectId+ "/" + bugId  );
-        noti.setIsRead(false);
-        noti.setSender(saved.getUser());
-        // Gửi notification cho chủ bug nếu khác người gửi
-
-        if (owner != null && !owner.getId().equals(message.getUser().getId())) {
-            noti.setReceiver(saved.getBugReport().getUser());
+        //Gui notification cho test leader
+        List<User> teamleaders = testProject_UserService.getTestLeaderInProject(testProjectId);
+        for (User item : teamleaders) {
+            Notification noti = new Notification();
+            noti.setType(TypeNotification.BUG_REPORT);
+            noti.setContent("You have a new comment on bug report");
+            noti.setLink_url(testProjectId+ "/" + bugId  );
+            noti.setIsRead(false);
+            noti.setSender(saved.getUser());
+            noti.setReceiver(item);
             Notification notiSaved =  notificationRepository.save(noti);
-            NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,owner);
+            NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,new UserDTO(item.getId(),item.getName(),item.getAvatar()));
+            messagingTemplate.convertAndSend(
+                "/user/" + item.getId() + "/notify",
+               notiRes
+            );
+        }
+        // Gửi notification cho chủ bug nếu khác người gửi
+        UserDTO owner = new UserDTO(saved.getBugReport().getUser().getId(), saved.getBugReport().getUser().getName(), saved.getBugReport().getUser().getEmail());
+        if (owner != null && !owner.getId().equals(message.getUser().getId())) {
+            Notification ownernoti = new Notification();
+            ownernoti.setType(TypeNotification.BUG_REPORT);
+            ownernoti.setContent("You have a new comment on bug report");
+            ownernoti.setLink_url(testProjectId+ "/" + bugId  );
+            ownernoti.setIsRead(false);
+            ownernoti.setSender(saved.getUser());
+            ownernoti.setReceiver(saved.getBugReport().getUser());
+            Notification notiSavedOwner =  notificationRepository.save(ownernoti);
+            NotificationDTO notiRes = new NotificationDTO(notiSavedOwner.getId(),notiSavedOwner.getType(),notiSavedOwner.getContent(),notiSavedOwner.getLink_url(),sender,owner);
             messagingTemplate.convertAndSend(
                 "/user/" + owner.getId() + "/notify",
                notiRes
             );
-        }else {
-            List<User> teamleaders = testProject_UserService.getTestLeaderInProject(testProjectId);
-            for (User item : teamleaders) {
-                noti.setReceiver(item);
-                Notification notiSaved =  notificationRepository.save(noti);
-                NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,owner);
-                messagingTemplate.convertAndSend(
-                    "/user/" + item.getId() + "/notify",
-                   notiRes
-                );
-            }
         }
         return mes;
     }

@@ -1,5 +1,6 @@
 package qarenabe.qarenabe.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,11 +13,18 @@ import lombok.*;
 @Table(name = "lessons")
 public class Lesson extends BaseEntity {
 
-
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    Course course;
 
     @Column(nullable = false)
-    private String link;
+    String title;
+
+    @Column(nullable = false)
+    String LessonLink;
+
+    String description;
+
+    String linkImg;
+
 }
