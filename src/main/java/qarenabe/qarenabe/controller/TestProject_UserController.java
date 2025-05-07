@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import qarenabe.qarenabe.dto.TestProjectUserRequest;
 import qarenabe.qarenabe.dto.TestProjectUserResponse;
+import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.TestProject_User;
 import qarenabe.qarenabe.service.Security.SecurityService;
 import qarenabe.qarenabe.service.TestProject_User.TestProject_UserService;
@@ -97,5 +98,21 @@ public class TestProject_UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response );
         }
     }
+
+    @GetMapping("/getUser/project/{id}")
+    public ResponseEntity<?> getUserInProject(@PathVariable Long id){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<UserDTO> res = testProject_UserService.getUserInProject(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            response .put("status", "error");
+            response .put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response );
+        }
+    }
+
 
 }

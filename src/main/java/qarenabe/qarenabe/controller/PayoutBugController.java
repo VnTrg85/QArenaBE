@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PayoutBugController {
     @Autowired
     private PayoutBugService payoutBugService;
-    @GetMapping("/get/{id}/testproject")
+    @GetMapping("/get/{testProjectId}/testproject")
     public ResponseEntity<?> getBugPayoutByTestProject(@PathVariable Long testProjectId) {
         
         Map<String, Object> response = new HashMap<>();
@@ -66,5 +66,19 @@ public class PayoutBugController {
         }
     }
     
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePayoutBug(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Boolean res = payoutBugService.deletePayoutBug(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
     
 }

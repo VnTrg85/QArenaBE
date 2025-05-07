@@ -178,4 +178,29 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+
+    @Override
+    public UserDTO getPayoutInfor(Long id) {
+        try {
+            User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
+            UserDTO userDTO = new UserDTO(user.getPayout_method(), user.getPayout_account_info());
+            return userDTO;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public UserDTO updatePayoutInfor(UserDTO userDTO) {
+        try {
+            User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
+            user.setPayout_method(userDTO.getPayout_method());
+            user.setPayout_account_info(userDTO.getPayout_account_info());
+            userRepository.save(user);
+            return userDTO;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 }

@@ -30,25 +30,33 @@ public class Reproduction {
 
     @Getter
     @Setter
-      String device;
-
-    @Getter
-    @Setter
-      String browswer;
+    private String status;
     
     @Getter
     @Setter
-      Date time_created;
+    private Date time_created;
 
     @ManyToOne
     @JoinColumn(name = "bug_report_Id")
     @Getter
     @Setter
-      BugReport bugReport;
+    private BugReport bugReport;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
     @Setter
-      User user;
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "browserId")
+    @Getter
+    @Setter
+    private Browser browser;
+
+    @ManyToOne
+    @JoinColumn(name = "device_Id")
+    @Getter
+    @Setter
+    private Device device;
 }

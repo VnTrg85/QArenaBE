@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qarenabe.qarenabe.entity.Browser;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class ReproductionDTO {
     private String device;
     @Getter
     @Setter
-    private String browswer;
+    private Browser browswer;
     @Getter
     @Setter
     private Date time_created;
@@ -33,4 +34,7 @@ public class ReproductionDTO {
     @Getter
     @Setter
     private Long userId;
+    @Getter
+    @Setter
+    private String status;
 }

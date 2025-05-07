@@ -3,46 +3,60 @@ package qarenabe.qarenabe.service.BugReport;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+
+import javax.management.RuntimeErrorException;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.demo.enums.TypeNotification;
+
 import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.BugReportDTO;
 import qarenabe.qarenabe.dto.BugReportDTOSecond;
 import qarenabe.qarenabe.dto.BugReportSumary;
+import qarenabe.qarenabe.dto.NotificationDTO;
 import qarenabe.qarenabe.entity.Browser;
 import qarenabe.qarenabe.entity.BugReport;
 import qarenabe.qarenabe.entity.BugType;
 import qarenabe.qarenabe.entity.Device;
+import qarenabe.qarenabe.entity.Notification;
 import qarenabe.qarenabe.entity.Session;
 import qarenabe.qarenabe.entity.TestFeature;
 import qarenabe.qarenabe.entity.TestProject;
 import qarenabe.qarenabe.entity.User;
+import qarenabe.qarenabe.entity.UserPayoutBug;
 import qarenabe.qarenabe.repository.BrowserRepository;
 import qarenabe.qarenabe.repository.BugReportRepository;
 import qarenabe.qarenabe.repository.BugTypeRepository;
 import qarenabe.qarenabe.repository.DeviceRepository;
+import qarenabe.qarenabe.repository.NotificationRepository;
 import qarenabe.qarenabe.repository.SessionRepository;
 import qarenabe.qarenabe.repository.TestFeatureRepository;
 import qarenabe.qarenabe.repository.TestProjectRepository;
 import qarenabe.qarenabe.repository.UserRepository;
+import qarenabe.qarenabe.service.UserPayoutBug.UserPayoutBugService;
 import qarenabe.qarenabe.dto.UserDTO;
 @Service
+@RequiredArgsConstructor
 public class BugReportServiceImpl implements BugReportService {
-
+    private final SimpMessagingTemplate messagingTemplate;
     @Autowired
     private BugReportRepository bugReportRepository;
 
@@ -60,6 +74,11 @@ public class BugReportServiceImpl implements BugReportService {
     private DeviceRepository deviceRepository;
     @Autowired
     private BrowserRepository browserRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired 
+    private UserPayoutBugService userPayoutBugService;
     
 
     public List<BugReportDTO> getBugReportsByProjectId(Long projectId) {
@@ -200,5 +219,74 @@ public class BugReportServiceImpl implements BugReportService {
         return countsByDate.entrySet().stream()
                 .map(e -> new BugReportSumary(e.getKey(), e.getValue().intValue()))
                 .collect(Collectors.toList());
+    }
+    @Override 
+    public Boolean updateStatusOfBugReport(BugReportDTOSecond bugReportDTOSecond, Long changedUserId) {
+       try {
+            BugReport bugReport = bugReportRepository.findById(bugReportDTOSecond.getId()).orElseThrow(() -> new EntityNotFoundException("Bug report not found with ID"));
+            bugReport.setStatus(bugReportDTOSecond.getStatus());
+            User changedUser = userRepository.findById(changedUserId).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
+            Notification noti = new Notification();
+            if(bugReportDTOSecond.getStatus().equals("accepted")) {
+                UserPayoutBug userPayoutBug  = new UserPayoutBug();
+                userPayoutBug.setDateCreated(new Date());
+                userPayoutBug.setBugReport(bugReport);
+                userPayoutBugService.createUserPayoutBug(userPayoutBug);
+                noti.setContent("Your bug have been accepted");
+            }else {
+                userPayoutBugService.deleteUserPayoutBugByBugReport(bugReport.getId());
+                noti.setContent("Your bug have been rejected");
+            }
+            noti.setType(TypeNotification.BUG_REPORT);
+            noti.setLink_url(bugReport.getTestProject().getId()+ "/" + bugReport.getId());
+            noti.setIsRead(false);
+            noti.setSender(changedUser);
+            noti.setReceiver(bugReport.getUser());
+            UserDTO sender = new UserDTO(changedUser.getId(),changedUser.getName(), changedUser.getAvatar());
+            UserDTO owner = new UserDTO(bugReport.getUser().getId(),bugReport.getUser().getName(), bugReport.getUser().getAvatar());
+            Notification notiSaved =  notificationRepository.save(noti);
+            NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,owner);
+            // Gửi notification cho chủ bug nếu khác người gửi
+            messagingTemplate.convertAndSend(
+                "/user/" + bugReport.getUser().getId() + "/notify",notiRes
+            );
+            return true;
+       } catch (Exception e) {
+        throw new RuntimeException(e.getMessage());
+       }
+    }
+
+    @Override
+    public List<BugReportDTOSecond> getListBugReportsByUser(Long userId) {
+        try {
+            List<BugReport> listReport = bugReportRepository.findByUserId(userId);
+            List<BugReportDTOSecond> listRes = new ArrayList<>();
+            for (BugReport bugReport : listReport) {
+                UserDTO user = new UserDTO(bugReport.getUser().getId(), bugReport.getUser().getName(), bugReport.getUser().getAvatar());
+                BugReportDTOSecond resEntity = new BugReportDTOSecond(bugReport.getId(), bugReport.getTitle(), bugReport.getStatus(), bugReport.getReported_at(), bugReport.getBugType().getIcon_link(), bugReport.getBugType().getName(),user,bugReport.getTestFeature().getName());
+                listRes.add(resEntity);
+            }
+            return listRes;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<BugReportDTOSecond> getListBugReportAcceptByProject(Long testProjectId) {
+        try {
+            List<BugReport> listReport = bugReportRepository.findAllByTestProjectId(testProjectId);
+            List<BugReportDTOSecond> listRes = new ArrayList<>();
+            for (BugReport bugReport : listReport) {
+                if(bugReport.getStatus().equals("accepted")) {
+                    UserDTO user = new UserDTO(bugReport.getUser().getId(), bugReport.getUser().getName(), bugReport.getUser().getAvatar());
+                    BugReportDTOSecond resEntity = new BugReportDTOSecond(bugReport.getId(), bugReport.getTitle(), bugReport.getStatus(), bugReport.getReported_at(), bugReport.getBugType().getIcon_link(), bugReport.getBugType().getName(),user,bugReport.getTestFeature().getName());
+                    listRes.add(resEntity);
+                }
+            }
+            return listRes;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

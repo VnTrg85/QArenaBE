@@ -1,4 +1,5 @@
 package qarenabe.qarenabe.dto;
+import qarenabe.qarenabe.entity.CategoryDevice;
 import qarenabe.qarenabe.entity.TestFeature;
 
 import java.util.Date;
@@ -61,7 +62,13 @@ public class TestprojectDTO {
     @Setter
     private List<BugReportDTO> bugReports;
 
-    public TestprojectDTO(String projectName, String description,String outScope ,String additionalRequirement,String link,String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, Long userId) {
+    @Getter
+    @Setter
+    private String[] devices ;
+
+
+    public TestprojectDTO(Long id,String projectName, String description,String outScope ,String additionalRequirement,String link,String goal, String[] platform,Date create_at, Date end_at, String status, String[] language, Long userId) {
+        this.id = id;
         this.projectName = projectName;
         this.description = description;
         this.outScope  = outScope;
@@ -75,7 +82,7 @@ public class TestprojectDTO {
         this.language = language;
         this.userId = userId;
     }
-    public TestprojectDTO(Long id,String projectName, String description, String goal, String[] platform,Date create_at, Date end_at, String link,String outScope,String status, String[] language, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
+    public TestprojectDTO(Long id,String projectName, String description,String additionalRequirement, String goal, String[] platform,Date create_at, Date end_at, String link,String outScope,String status, String[] language,String[] devices, List<TestFeatureDTO> testFeatures, List<PayoutBugDTO> payoutBugs) {
         this.id = id;
         this.projectName = projectName;
         this.description = description;
@@ -87,7 +94,9 @@ public class TestprojectDTO {
         this.language = language;
         this.outScope = outScope;
         this.link = link;
+        this.devices = devices;
         this.testFeatures = testFeatures;
         this.payoutBugs = payoutBugs;
+        this.additionalRequirement = additionalRequirement;
     }
 }

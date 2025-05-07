@@ -53,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(null);
     }
     @GetMapping("/getByEmail")
-    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+    public ResponseEntity<?> getUserByEmail(@RequestParam("email") String email) {
       Map<String, Object> response = new HashMap<>();
          try {
             UserDTO res = userService.getUserByEmail(email);
@@ -117,5 +117,37 @@ public class UserController {
     @DeleteMapping("delete/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.deleteUser(userId));
+    }
+
+    @GetMapping("/payoutinfo/{id}")
+    public ResponseEntity<?> getPayoutInfor(@PathVariable Long id) {
+        try {
+            UserDTO userRes = userService.getPayoutInfor(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("data", userRes);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("data", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PutMapping("/payoutinfo/update")
+    public ResponseEntity<?> updatePayoutInfor(@RequestBody UserDTO userDTO) {
+        try {
+            UserDTO userRes = userService.updatePayoutInfor(userDTO);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("data", userRes);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("data", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 }

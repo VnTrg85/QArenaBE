@@ -52,5 +52,19 @@ public class PayoutBugServiceImpl implements PayoutBugService{
             throw new RuntimeException(e.getMessage());
         }
     }
-    
+    @Override
+    public Long getAmountForProjectAndBugType(Long testProjectId, Long bugTypeId) {
+        return payoutBugRepository.getAmountByProjectAndBugType(testProjectId, bugTypeId)
+                                  .orElse(0L);
+    }
+    @Override
+    public Boolean deletePayoutBug(Long id) {
+        try {
+            PayoutBug payoutBug = payoutBugRepository.findById(id).orElseThrow( () -> new EntityNotFoundException("Payout Bug  not found with ID"));
+            payoutBugRepository.delete(payoutBug);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }
