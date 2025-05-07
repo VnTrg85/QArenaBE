@@ -21,4 +21,5 @@ public interface TestProjectRepository extends JpaRepository<TestProject,Long>  
 
     List<TestProject> findByStatus(String status);
     
+    List<TestProject> findByUser_Id(Long userId);
 }

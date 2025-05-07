@@ -93,6 +93,17 @@ public class TestFeatureServiceImpl implements TestFeatureService{
         }
     }
 
+    @Override
+    public Boolean deleteTestFeature(Long id) {
+        try {
+            TestFeature testFeature = testFeatureRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Test feature not found with ID"));
+            testFeatureRepository.delete(testFeature);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     
     
 }

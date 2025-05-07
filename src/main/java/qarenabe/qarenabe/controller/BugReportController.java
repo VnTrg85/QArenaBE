@@ -127,4 +127,36 @@ public class BugReportController {
         }
         
     }
+
+    @GetMapping("/get/user/{id}")
+    public ResponseEntity<?> getBugReportByUser(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+         try {
+            List<BugReportDTOSecond> res = bugReportService.getListBugReportsByUser(id);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        
+    }
+
+    @PostMapping("/update/status/{changedUserId}")
+    public ResponseEntity<?> updateBugReportStatus(@RequestBody BugReportDTOSecond bugReportDTOSecond, @PathVariable Long changedUserId) {
+        Map<String, Object> response = new HashMap<>();
+         try {
+            Boolean res = bugReportService.updateStatusOfBugReport(bugReportDTOSecond,changedUserId);
+            response.put("status", "success");
+            response.put("data", res);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            response.put("status", "error");
+            response.put("data", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        
+    }
 }

@@ -23,6 +23,7 @@ import qarenabe.qarenabe.repository.MessageRepository;
 import qarenabe.qarenabe.repository.NotificationRepository;
 import qarenabe.qarenabe.repository.TestProjectRepository;
 import qarenabe.qarenabe.repository.UserRepository;
+import qarenabe.qarenabe.service.TestProject_User.TestProject_UserService;
 
 import com.example.demo.enums.TypeNotification;
 @Service
@@ -40,6 +41,8 @@ public class MessageServiceImpl implements MessageService{
     private TestProjectRepository testProjectRepository;
     @Autowired 
     private NotificationRepository notificationRepository;
+    @Autowired 
+    private TestProject_UserService testProject_UserService;
     public MessageDTO saveAndBroadcastBug(MessageDTO messageDto) {
         User user  = userRepository.findById(messageDto.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found with ID"));
         BugReport bugReport = bugReportRepository.findById(messageDto.getBugReportId()).orElseThrow(() -> new EntityNotFoundException("Bug report not found with ID"));
@@ -58,18 +61,35 @@ public class MessageServiceImpl implements MessageService{
         
         // Gửi tới room của bug report
         messagingTemplate.convertAndSend("/topic/bug-report/" + bugId, mes);
-        UserDTO owner = new UserDTO(saved.getBugReport().getUser().getId(), saved.getBugReport().getUser().getName(), saved.getBugReport().getUser().getEmail());
-        Notification noti = new Notification();
-        noti.setType(TypeNotification.BUG_REPORT);
-        noti.setContent("You have a new comment on bug report");
-        noti.setLink_url(testProjectId+ "/" + bugId  );
-        noti.setIsRead(false);
-        noti.setSender(saved.getUser());
-        noti.setReceiver(saved.getBugReport().getUser());
-        Notification notiSaved =  notificationRepository.save(noti);
-        NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,owner);
+        //Gui notification cho test leader
+        List<User> teamleaders = testProject_UserService.getTestLeaderInProject(testProjectId);
+        for (User item : teamleaders) {
+            Notification noti = new Notification();
+            noti.setType(TypeNotification.BUG_REPORT);
+            noti.setContent("You have a new comment on bug report");
+            noti.setLink_url(testProjectId+ "/" + bugId  );
+            noti.setIsRead(false);
+            noti.setSender(saved.getUser());
+            noti.setReceiver(item);
+            Notification notiSaved =  notificationRepository.save(noti);
+            NotificationDTO notiRes = new NotificationDTO(notiSaved.getId(),notiSaved.getType(),notiSaved.getContent(),notiSaved.getLink_url(),sender,new UserDTO(item.getId(),item.getName(),item.getAvatar()));
+            messagingTemplate.convertAndSend(
+                "/user/" + item.getId() + "/notify",
+               notiRes
+            );
+        }
         // Gửi notification cho chủ bug nếu khác người gửi
+        UserDTO owner = new UserDTO(saved.getBugReport().getUser().getId(), saved.getBugReport().getUser().getName(), saved.getBugReport().getUser().getEmail());
         if (owner != null && !owner.getId().equals(message.getUser().getId())) {
+            Notification ownernoti = new Notification();
+            ownernoti.setType(TypeNotification.BUG_REPORT);
+            ownernoti.setContent("You have a new comment on bug report");
+            ownernoti.setLink_url(testProjectId+ "/" + bugId  );
+            ownernoti.setIsRead(false);
+            ownernoti.setSender(saved.getUser());
+            ownernoti.setReceiver(saved.getBugReport().getUser());
+            Notification notiSavedOwner =  notificationRepository.save(ownernoti);
+            NotificationDTO notiRes = new NotificationDTO(notiSavedOwner.getId(),notiSavedOwner.getType(),notiSavedOwner.getContent(),notiSavedOwner.getLink_url(),sender,owner);
             messagingTemplate.convertAndSend(
                 "/user/" + owner.getId() + "/notify",
                notiRes
@@ -117,9 +137,11 @@ public class MessageServiceImpl implements MessageService{
             List<Message> listMess = messageRepository.findAllByTestProjectId(id);
             List<MessageDTO> listMessRes = new ArrayList<>();
             for (Message message : listMess) {
-                UserDTO user = new UserDTO(message.getUser().getId(), message.getUser().getName(), message.getUser().getAvatar());
-                MessageDTO messEntity = new MessageDTO(message.getId(), message.getContent(), message.getTime_created(), message.getTestProject().getId(),null,user);
-                listMessRes.add(messEntity);
+                if(message.getBugReport() == null){
+                    UserDTO user = new UserDTO(message.getUser().getId(), message.getUser().getName(), message.getUser().getAvatar());
+                    MessageDTO messEntity = new MessageDTO(message.getId(), message.getContent(), message.getTime_created(), message.getTestProject().getId(),null,user);
+                    listMessRes.add(messEntity);
+                }
             }
             return listMessRes;
         } catch (Exception e) {

@@ -14,4 +14,6 @@ public interface UserService {
     public void updateAvatar(UserDTO user);
     public String deleteUser(Long id);
     public UserDTO getUserByEmail(String email);
+    public UserDTO getPayoutInfor(Long id);
+    public UserDTO updatePayoutInfor(UserDTO userDTO);
 }

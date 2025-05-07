@@ -2,7 +2,7 @@ package qarenabe.qarenabe.service.TestProject_User;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 import org.hibernate.action.internal.EntityAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import qarenabe.qarenabe.dto.TestProjectUserResponse;
 import qarenabe.qarenabe.dto.TestprojectDTO;
+import qarenabe.qarenabe.dto.UserDTO;
 import qarenabe.qarenabe.entity.TestProject;
 import qarenabe.qarenabe.entity.TestProject_User;
 import qarenabe.qarenabe.entity.User;
@@ -43,7 +44,7 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             
             for (TestProject_User item : lists) {
                 TestProject selectedTest = item.getTestProject();
-                TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getId(),selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEndAt(),selectedTest.getLink(),selectedTest.getOutScope(),selectedTest.getStatus(),selectedTest.getLanguage(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
+                TestprojectDTO secondDTO = new TestprojectDTO(selectedTest.getId(),selectedTest.getProjectName(),selectedTest.getDescription(),selectedTest.getAdditionalRequirement(),selectedTest.getGoal(),selectedTest.getPlatform(),selectedTest.getCreate_at(),selectedTest.getEndAt(),selectedTest.getLink(),selectedTest.getOutScope(),selectedTest.getStatus(),selectedTest.getLanguage(),selectedTest.getDevices(),testFeatureService.getFeaturesByTestProject(selectedTest.getId()),payoutBugService.getPayoutBugByProject(selectedTest.getId()));
                 TestProjectUserResponse val = new TestProjectUserResponse(item.getId(), item.getStatus(), secondDTO);
                 resLists.add(val);
             }
@@ -88,6 +89,39 @@ public class Testproject_UserServiceImpl implements TestProject_UserService{
             testProject_User.setStatus(status);
             testProject_UserRepository.save(testProject_User);
             return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+
+    @Override
+    public List<UserDTO> getUserInProject(Long projectId) {
+        try {
+            List<TestProject_User> testProject_Users = testProject_UserRepository.findAllByTestProjectId(projectId);
+            List<UserDTO> userDTOs = new ArrayList<>();
+            for (TestProject_User testProject_User : testProject_Users) {
+                userDTOs.add(new UserDTO(testProject_User.getUser().getId(), testProject_User.getUser().getName(), testProject_User.getUser().getAvatar(),testProject_User.getUser().getUserRole().getId()));
+            }
+            return userDTOs;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<User> getTestLeaderInProject(Long projectId) {
+        try {
+            List<TestProject_User> testProject_Users = testProject_UserRepository.findAllByTestProjectId(projectId);
+            List<User> users = new ArrayList<User>();
+            for (TestProject_User testProject_User : testProject_Users) {
+                Long roleId = testProject_User.getUser().getUserRole().getId();
+                if (Objects.equals(roleId, 4L)) {
+                    users.add(testProject_User.getUser());
+                }
+            }
+            return users;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -1,5 +1,7 @@
 package qarenabe.qarenabe.entity;
 import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
@@ -31,10 +34,14 @@ public class TestFeature {
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "input", length = 2000000000)
     private String input;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "output", length = 2000000000)
     private String output;
 
     @Setter

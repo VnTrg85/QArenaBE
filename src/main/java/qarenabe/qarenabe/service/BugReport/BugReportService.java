@@ -22,4 +22,7 @@ public interface BugReportService {
     public List<BugReportDTOSecond> getListBugReportByProject(Long testProjectId);
     public BugReport getBugReportDetail(Long id);
     public List<BugReportSumary> getBugReportsSumaryByUser(Long userId);
+    public Boolean updateStatusOfBugReport(BugReportDTOSecond bugReportDTOSecond, Long changedUserId);
+    public List<BugReportDTOSecond> getListBugReportsByUser(Long userId);
+    public List<BugReportDTOSecond> getListBugReportAcceptByProject(Long testProjectId);
 }

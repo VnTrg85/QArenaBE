@@ -43,14 +43,20 @@ public class TestProject {
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "outScope", length = 2000000000)
     private String outScope;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "goal", length = 2000000000)
     private String goal;
 
     @Getter
     @Setter
+    @Lob
+    @Column(name = "additionalRequirement", length = 2000000000)
     private String additionalRequirement;
 
     @Getter
@@ -82,6 +88,14 @@ public class TestProject {
     @Column(columnDefinition = "TEXT")
     private String[] language;
 
+
+    @Getter
+    @Setter
+    @Convert(converter = StringArrayConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private String[] devices;
+
+
     @ManyToOne
     @JoinColumn(name = "userId")
     @Getter
@@ -89,11 +103,6 @@ public class TestProject {
     private User user;
 
 
-    @OneToMany
-    @JoinColumn(name = "deviceId")
-    @Getter
-    @Setter
-    private List<Device> devices;
 
     public TestProject(Long id) {
         this.id = id;

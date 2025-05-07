@@ -2,8 +2,13 @@ package qarenabe.qarenabe.dto;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class BugReportDTOSecond {
 
@@ -41,5 +46,10 @@ public class BugReportDTOSecond {
         this.bugTypeName = bugtype_name;
         this.user = user;
         this.feature = feature;
+    }
+
+    public BugReportDTOSecond(Long id, String status) {
+        this.id = id;
+        this.status = status;
     }
 }
