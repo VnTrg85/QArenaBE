@@ -15,5 +15,7 @@ public interface BugReportRepository extends JpaRepository<BugReport,Long> {
     List<BugReport> findAllByUserId(Long userId);
 
     List<BugReport> findByTestProjectId(Long testProjectId);
+
+    List<BugReport> findByTestProjectIdAndStatus(Long testProjectId,String status);
 }
 
